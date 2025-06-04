@@ -36,9 +36,32 @@ body
     background-color: var(--celeste0);
 }
 
-nav
+header
 {
-    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    /* position: fixed; */
+    z-index: 1002;
+}
+
+/* Stile per la prima sezione con sfondo montagne */
+#sec1
+{
+    background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh;
+    position: relative;
+}
+
+.logo
+{
+    height: 4.8em;
+    object-fit: contain;
+    z-index: 2000;
 }
 
 #menu-toggle
@@ -48,42 +71,103 @@ nav
 
 .menu-icon
 {
-    font-size: 3em;
-    margin-right: 0.2em;
-    cursor: pointer;
+    position: absolute;
+    right: 2em;
+    font-size: 1.5em;
     color: white;
-    background: #e3902f;
-    margin-left: 10px;
-    min-height: 45px;
-    padding: 0 16px !important;
-    pointer-events: all;
-    position: relative;
-    border-radius: 20%;
+    cursor: pointer;
+    z-index: 2000; /* ??? */
+    transition: transform 0.3s ease;
+    /* user-select: none; */
 }
 
-.menu
+.menu-icon:hover
 {
-    display: none; /*stato di default*/
+    transform: scale(1.1);
+}
+
+.overlay
+{
+    position: fixed; /* altrimenti occupa lo spazio del banner */
+    top: 0; /* altrimenti lascia fuori l'header */
+    /*left: 0;*/
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0; /* ??? */
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+/* si attiva solo quando attivo il nav*/
+#menu-toggle:checked ~ .overlay
+{
+    opacity: 1;
+    visibility: visible;
+}
+
+nav
+{
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100vh;
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    transition: right 0.3s ease;
+    z-index: 1000;
+    display: flex;
     flex-direction: column;
-    justify-content: space-evenly; /*da togliere?*/
+}
+
+#menu-toggle:checked ~ nav
+{
+    right: 0; /* ??? */
+}
+
+nav ul
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    flex: 1;
+    padding: 2rem 0;
+    /*display: none; /*stato di default
+    flex-direction: column;
+    justify-content: space-evenly; /*da togliere?
     height: auto;
     padding: 1em;
     list-style: none;
     margin: 0;
-    align-items: center; /*da togliere?*/
-    gap: 1em;
+    align-items: center; /*da togliere?
+    gap: 1em;*/
 }
 
-.menu a
+nav ul li
 {
+    margin: 0;
+}
+
+nav ul li a
+{
+    display: block;
+    padding: 1rem 2rem;
+    color: #ecf0f1;
     text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-size: 1.1rem;
+    /*text-decoration: none;
     color: #fff;
     padding: 1em 3em;
     border-radius: 1em;
-    cursor: pointer;
+    cursor: pointer;*/
 }
 
-.menu a:hover
+/*.menu a:hover
 {
     background-color: #054278;
     border-bottom: 2px solid #0b6cc2;
@@ -97,14 +181,6 @@ nav
     text-align: right;
 }
 
-#menu-toggle:checked ~ .menu
-{
-    display: flex; /*fa aprire il menu*/
-    width: 16em;
-    height: 100vh;
-    background-color: blue;
-}
-
 #banner
 {
     width: 100%;
@@ -113,6 +189,4 @@ nav
     align-items: center;
     justify-content: center;
     background-image: url(../immagini/20250526_200048.jpg);
-}
-
-
+}*/
