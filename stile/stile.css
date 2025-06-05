@@ -51,7 +51,7 @@ header
 {
     background-image: url(../immagini/TuttaLaTower.jpg);
     background-size: cover;
-    background-position: center;
+    background-position: center 32%;
     background-attachment: fixed;
     height: 100vh;
     position: relative;
