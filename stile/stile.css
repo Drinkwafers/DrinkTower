@@ -36,43 +36,47 @@ body
     background-color: var(--celeste0);
 }
 
-header
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 2rem;
-    z-index: 1002;
-    height: 3.2em;
-}
-
-/* Stile per la prima sezione con sfondo montagne */
+/* Stile per la prima sezione con sfondo immagine */
 #sec1
 {
     background-image: url(../immagini/TuttaLaTower.jpg);
-    background-size: cover;
-    background-position: center 32%;
-    background-attachment: fixed;
+    background-size: cover; /* cover è la piu adatta */
+    background-position: center 32%; /* allineamento ad hoc per l'immagine */
+    /* background-attachment: fixed; */
     height: 100vh;
-    position: relative;
+    /* position: relative; */
+}
+
+header
+{
+    display: flex;
+    justify-content: center; /* titolo va al centro */
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 1002;
+    height: 3.2em; /* altrimenti mi va fuori dallo schermo */
+}
+
+header a
+{
+    position: fixed; /* resta fermo quando scorro */
+    z-index: 2000;
 }
 
 .logo
 {
     height: 4.8em;
-    object-fit: contain;
-    z-index: 2000;
-    position: fixed;
+    /* object-fit: contain; */
 }
 
 #menu-toggle
 {
-    display: none; /*stato di default*/
+    display: none; /* per non visualizzare la casellina */
 }
 
 .menu-icon
 {
-    position: fixed;
+    position: fixed; /* resta fermo quando scorro */
     right: 2em;
     font-size: 1.5em;
     color: white;
@@ -83,7 +87,7 @@ header
     background: #e3902f;
     padding: 8.5px 16px;
     border-radius: 6px;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .menu-icon:hover
@@ -99,8 +103,8 @@ header
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    opacity: 0; /* ??? */
-    visibility: hidden;
+    opacity: 0.16; /* default */
+    visibility: hidden;  /* default */
     transition: all 0.3s ease;
     z-index: 999;
 }
@@ -109,119 +113,171 @@ header
 #menu-toggle:checked ~ .overlay
 {
     opacity: 1;
-    visibility: visible;
 }
 
 nav
 {
     position: fixed;
-    top: 0;
-    right: -350px;
-    width: 350px;
+    top: 0; /* per inglobare anche il toggle */
+    right: -50.5vw; /* default fuori dallo schermo */
+    width: 50.5vw; /* ESATTAMENTE tra drink e tower */
     height: 100vh;
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3); /* leggera sfocatura a sinistra */
     transition: right 0.3s ease;
     z-index: 1000;
-    display: flex;
-    flex-direction: column;
+    text-align: left;
+    /*display: flex;
+    flex-direction: column;*/
 }
 
 #menu-toggle:checked ~ nav
 {
-    right: 0; /* ??? */
+    right: 0; /* sposta il nav */
 }
 
 nav ul
 {
     list-style: none;
-    margin: 0;
-    padding: 0;
-
-    flex: 1;
-    padding: 2rem 0;
-    /*display: none; /*stato di default
-    flex-direction: column;
-    justify-content: space-evenly; /*da togliere?
-    height: auto;
-    padding: 1em;
-    list-style: none;
-    margin: 0;
-    align-items: center; /*da togliere?
-    gap: 1em;*/
+    margin: 12vh 0 0; /* circa la dimensione dell'header */
+    /*flex: 1;*/
+    height: 76vh;
 }
 
 nav ul li
 {
-    margin: 0;
+    margin: 0 0 0 16%; /* giusto per mette qualcosa DA TOGLIERE */
 }
 
 nav ul li a
 {
-    display: block;
-    padding: 1rem 2rem;
-    color: #ecf0f1;
+    padding: 1em 2em;
     text-decoration: none;
     transition: all 0.3s ease;
-    border-left: 3px solid transparent;
-    font-size: 1.1rem;
-    /*text-decoration: none;
-    color: #fff;
-    padding: 1em 3em;
-    border-radius: 1em;
-    cursor: pointer;*/
+    /*border-left: 3px solid transparent;*/
+    font-size: 2em;
+    color: #eba13d;
+    display: inline-block;
+    font-weight: 644;
+    letter-spacing: .048em;
+    /*position: relative;*/
+    text-transform: uppercase;
+    white-space: nowrap; /* non fa andare a capo */
+}
+
+nav ul li a:hover, .current
+{
+    color: white;
+    text-decoration: underline;
+}
+
+#nav-footer
+{
+    text-align: right;
+    height: 12vh;
+}
+
+.icon
+{
+    height: 1.6em;
+    padding: 5% 2% 1% 0%;
 }
 
 h1
 {
     font-size: 6.4em;
-    letter-spacing: .03em;
+    letter-spacing: .032em;
     line-height: 1.2;
     margin-bottom: 0;
     /* text-transform: uppercase; */
     text-align: center;
     color: #eba13d;
+    text-shadow: 4px 0 1px rgba(0, 0, 0, 0.3);
 }
 
-/* Contenuto aggiuntivo per testare lo scroll */
-.extra-content {
-    padding: 2rem;
+#sec2
+{
+    background-color: var(--arancio0);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
+    height: 100vh;
+}
+
+#sec2 h2
+{
+    font-size: 3.8em;
+    text-transform: uppercase;
+    padding: 1em;
+    width: 50vw;
+}
+
+#sec2 p
+{
+    font-size: 1.4em;
+    padding: 1em;
+    margin-right: 1em;
+}
+
+#sburra
+{
+    display: block;
     text-align: center;
-    max-width: 800px;
-    margin: 2rem auto;
-    background: rgba(0, 0, 0, 0.05);
-    backdrop-filter: blur(5px);
-    border-radius: 20px;
-    position: relative;
-    z-index: 2;
-    color: #333;
+    font-size: 1.5em;
 }
 
-.extra-content h2 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-}
-
-/*.menu a:hover
+#sec3
 {
-    background-color: #054278;
-    border-bottom: 2px solid #0b6cc2;
-    border-top: 2px solid #073d6c;
+    color: #222;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1em;
 }
 
-.menu li
+#sec3-container
 {
-    padding: 0.5em 0;
-    width: 100%;
-    text-align: right;
+    width: 50vw;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
-#banner
-{
-    width: 100%;
-    height: 46.5em;
+.line-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-image: url(../immagini/20250526_200048.jpg);
-}*/
+}
+
+.line-container::before,
+.line-container::after {
+    content: ''; /* crea i due elementi virtuali (linee) */
+    flex: 1; /* dice a ciascuna linea di occupare tutto lo spazio disponibile */
+    height: 2px;
+    background: var(--arancio2);
+}
+
+.line-title-3 {
+    padding: 0 2rem;
+    white-space: nowrap;
+}
+
+#sec3 h2
+{
+    font-size: 3.2em;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+#sec3 p
+{
+    font-size: 2.7em;
+    text-align: center;
+}
+
+#mappa
+{
+    padding: 0 15%;
+    width: 70%;
+    height: 19em;
+    border: none;
+}
