@@ -112,6 +112,7 @@ header a
 /* si attiva solo quando attivo il nav*/
 #menu-toggle:checked ~ .overlay
 {
+    visibility: visible;
     opacity: 1;
 }
 
@@ -234,18 +235,20 @@ h1
     flex-direction: row;
     align-items: center;
     gap: 1em;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 #sec3-container
 {
     width: 50vw;
-    margin-top: 1em;
-    margin-bottom: 1em;
 }
 
-.line-container {
+.line-container
+{
     display: flex;
     align-items: center;
+    margin-left: 1em;
 }
 
 .line-container::before,
@@ -263,14 +266,14 @@ h1
 
 #sec3 h2
 {
-    font-size: 3.2em;
+    font-size: 3em;
     margin: 0;
     text-transform: uppercase;
 }
 
 #sec3 p
 {
-    font-size: 2.7em;
+    font-size: 2em;
     text-align: center;
 }
 
@@ -280,4 +283,56 @@ h1
     width: 70%;
     height: 19em;
     border: none;
+}
+
+footer
+{
+    align-items: center;
+    width: 40vw;
+    padding: 0 30vw;
+    text-align: center;
+}
+
+#logo-footer-hyp
+{
+    display: flex;
+    align-items: center;
+}
+
+#logo-footer-hyp::before,
+#logo-footer-hyp::after {
+    content: ''; /* crea i due elementi virtuali (linee) */
+    flex: 1; /* dice a ciascuna linea di occupare tutto lo spazio disponibile */
+    height: 2px;
+    background: var(--arancio2);
+}
+
+#logo-footer
+{
+    height: 2.5em;
+}
+
+#social
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+
+#social .icon
+{
+    color: var(--arancio1);
+}
+
+.phone, .mail
+{
+    text-decoration: none;
+    color: black;
+}
+
+.phone
+{
+    padding: 0 1em;
 }
