@@ -36,14 +36,19 @@ body
     background-color: var(--celeste0);
 }
 
+.fullscreen-container
+{
+  width: 100%;
+  /* height verrà gestita da JS */
+}
+
 /* Stile per la prima sezione con sfondo immagine */
 #sec1
 {
     background-image: url(../immagini/TuttaLaTower.jpg);
     background-size: cover; /* cover è la piu adatta */
     background-position: center 32%; /* allineamento ad hoc per l'immagine */
-    /* background-attachment: fixed; */
-    height: 729.6px;
+    background-attachment: fixed;
     /* position: relative; */
 }
 
@@ -210,7 +215,6 @@ h1
     flex-direction: row;
     align-items: center;
     gap: 1em;
-    height: 729.6px;
 }
 
 #sec2 h2
@@ -224,13 +228,11 @@ h1
 #sec2-container-1
 {
     width: 61.8%;
-    max-height: -webkit-fill-available; /* per evitare che vada fuori dallo schermo */
 }
 
 #sec2-container-2
 {
     width: 38.2%;
-    max-height: -webkit-fill-available; /* per evitare che vada fuori dallo schermo */
 }
 
 
