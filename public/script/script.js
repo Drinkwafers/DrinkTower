@@ -2,8 +2,13 @@ document.addEventListener('DOMContentLoaded', function ()
 {
     function setFullHeight()
     {
-        const container = document.querySelector('.fullscreen-container');
-        container.style.height = window.innerHeight + 'px';
+        // Seleziona TUTTI gli elementi con la classe fullscreen-container
+        const containers = document.querySelectorAll('.fullscreen-container');
+        
+        // Applica l'altezza a ciascuno di essi
+        containers.forEach(container => {
+            container.style.height = window.innerHeight + 'px';
+        });
     }
     setFullHeight();
 });
