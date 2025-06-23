@@ -186,8 +186,10 @@ nav ul li a:hover, .current
 
 #banner
 {
+    position: absolute;
+    top: 18%;
     text-align: center;
-    align-items: center;
+    width: 100%;
 }
 
 h1
