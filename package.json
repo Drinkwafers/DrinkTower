@@ -1,0 +1,25 @@
+{
+  "name": "drinktower",
+  "version": "1.0.0",
+  "description": "Sito Web per l'azienda DrinkTower",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drinkwafers/DrinkTower.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Drinkwafers/DrinkTower/issues"
+  },
+  "homepage": "https://github.com/Drinkwafers/DrinkTower#readme",
+  "dependencies": {
+    "cookie-parser": "^1.4.7",
+    "express": "^5.1.0"
+  }
+}
