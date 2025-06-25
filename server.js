@@ -1,11 +1,26 @@
 const express = require('express');
 const cookieParser = require("cookie-parser");
+const mysql = require("mysql2");
 
 const app = express();
 const PORT = 3000;
 
 app.use(cookieParser());
-app.use(express.static("public")); // Serve tutti i file statici da public/
+app.use(express.static("public"));
+app.use(express.json());
+
+
+// Creo un pool di connessioni
+const pool = mysql.createPool(
+{
+    host: "localhost",
+    user: "user1",
+    password: "pass1",
+    database: "mio_db",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
 // Middleware per loggare il metodo HTTP, l'URL e la durata della richiesta
 app.use((req, res, next) => {
@@ -45,6 +60,26 @@ app.get('/eventi', (req, res) => res.sendFile(__dirname + '/eventi.html'));
 // Middleware per gestire errori 404 (pagina non trovata)
 app.use((req, res, next) => {
     res.status(404).sendFile(__dirname + '/public/404.html');
+});
+
+// API per recuperare la lista utenti
+app.get("/users", async (req, res) => {
+    const query = "SELECT * FROM utenti";
+    const connection = await pool.promise().getConnection();
+    try {
+        const [righe, colonne] = await connection.execute(query);
+        res.json(righe);
+    }
+    catch (err) {
+        console.error("Errore durante l'esecuzione della query:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore"
+        });
+    }
+    finally {
+        connection.release();
+    }
 });
 
 app.listen(PORT, () => {
