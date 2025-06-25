@@ -9,14 +9,12 @@ app.use(cookieParser());
 app.use(express.static("public"));
 app.use(express.json());
 
-
 // Creo un pool di connessioni
-const pool = mysql.createPool(
-{
+const pool = mysql.createPool({
     host: "localhost",
     user: "user1",
     password: "pass1",
-    database: "mio_db",
+    database: "db_tower",
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -24,8 +22,8 @@ const pool = mysql.createPool(
 
 // Middleware per loggare il metodo HTTP, l'URL e la durata della richiesta
 app.use((req, res, next) => {
-    const start = Date.now(); // Tempo di inizio
-    res.on('finish', () => {  // Eseguito quando la risposta viene inviata
+    const start = Date.now();
+    res.on('finish', () => {
         const duration = Date.now() - start;
         console.log(`${req.method} ${req.url} - ${duration}ms`);
     });
@@ -35,7 +33,7 @@ app.use((req, res, next) => {
 // Login - imposta il cookie
 app.get("/login", (req, res) => {
     res.cookie("auth", "true", { maxAge: 600000, httpOnly: true, secure: true });
-    res.redirect("/restricted.html"); // reindirizza all'area riservata
+    res.redirect("/restricted.html");
 });
 
 // Logout - cancella il cookie
@@ -48,38 +46,64 @@ app.get("/logout", (req, res) => {
 app.get("/restricted.html", (req, res) => {
     if (req.cookies.auth === "true") {
         res.sendFile(__dirname + "/private/restricted.html");
-    }
-    else {
+    } else {
         res.redirect("/denied.html");
     }
 });
 
-app.use (express.static("public"));
-app.get('/eventi', (req, res) => res.sendFile(__dirname + '/eventi.html'));
-
-// Middleware per gestire errori 404 (pagina non trovata)
-app.use((req, res, next) => {
-    res.status(404).sendFile(__dirname + '/public/404.html');
-});
-
-// API per recuperare la lista utenti
+// API per recuperare gli eventi (CORRETTO: usa tabella eventi)
 app.get("/users", async (req, res) => {
-    const query = "SELECT * FROM utenti";
+    const query = "SELECT * FROM eventi ORDER BY data_evento ASC";
     const connection = await pool.promise().getConnection();
     try {
         const [righe, colonne] = await connection.execute(query);
         res.json(righe);
-    }
-    catch (err) {
+    } catch (err) {
         console.error("Errore durante l'esecuzione della query:", err);
         res.status(500).json({
             success: false,
-            message: "Errore"
+            message: "Errore nel recupero degli eventi"
         });
-    }
-    finally {
+    } finally {
         connection.release();
     }
+});
+
+// API per aggiungere un nuovo evento (AGGIUNTO)
+app.post("/add-user", async (req, res) => {
+    const { nome, data_evento, ora_evento, numero_iscritti } = req.body;
+    
+    // Validazione base
+    if (!nome || !data_evento || !ora_evento) {
+        return res.status(400).json({
+            success: false,
+            message: "Nome, data e ora sono obbligatori"
+        });
+    }
+
+    const query = "INSERT INTO eventi (nome, data_evento, ora_evento, numero_iscritti) VALUES (?, ?, ?, ?)";
+    const connection = await pool.promise().getConnection();
+    
+    try {
+        await connection.execute(query, [nome, data_evento, ora_evento, numero_iscritti || 0]);
+        res.json({
+            success: true,
+            message: "Evento aggiunto con successo!"
+        });
+    } catch (err) {
+        console.error("Errore durante l'inserimento:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore nell'aggiunta dell'evento"
+        });
+    } finally {
+        connection.release();
+    }
+});
+
+// Middleware per gestire errori 404
+app.use((req, res, next) => {
+    res.status(404).sendFile(__dirname + '/public/404.html');
 });
 
 app.listen(PORT, () => {
