@@ -76,20 +76,9 @@ window.onload = function ()
             const {eventiFuturi} = await caricaEventi();
             lista1.innerHTML = ""; // Pulisce la lista
             
-            if (eventiFuturi.length === 0)
-            {
-                const li = document.createElement("li");
-                li.textContent = "Nessun evento futuro al momento";
-                lista1.appendChild(li);
-                return;
-            }
-
-            eventiFuturi.forEach(evento => {
-                const li = document.createElement("li");
-                li.textContent = `${evento.nome} - ${formatDate(evento.data_evento)} alle ${evento.ora_evento} - Iscritti: ${evento.numero_iscritti}`;
-                lista1.appendChild(li);
-            });
-        } catch (error)
+            StampaEventi(eventiFuturi, lista1);
+        }
+        catch (error)
         {
             console.error("Errore:", error);
             lista1.innerHTML = "<li>Errore nel caricamento degli eventi</li>";
@@ -102,30 +91,60 @@ window.onload = function ()
         {
             const {eventiPassati} = await caricaEventi();
             lista2.innerHTML = ""; // Pulisce la lista
-            
-            if (eventiPassati.length === 0)
-            {
-                const li = document.createElement("li");
-                li.textContent = "Nessun evento passato trovato";
-                lista2.appendChild(li);
-                return;
-            }
-
             // Ordina eventi passati dal più recente al più vecchio
             eventiPassati.sort((a, b) => new Date(b.data_evento) - new Date(a.data_evento));
-
-            eventiPassati.forEach(evento => {
-                const li = document.createElement("li");
-                li.textContent = `${evento.nome} - ${formatDate(evento.data_evento)} alle ${evento.ora_evento} - Iscritti: ${evento.numero_iscritti}`;
-                lista2.appendChild(li);
-            });
-        } catch (error)
+            
+            StampaEventi(eventiPassati, lista2);
+        }
+        catch (error)
         {
             console.error("Errore:", error);
             lista2.innerHTML = "<li>Errore nel caricamento degli eventi</li>";
         }
     });
 
-    // Carica automaticamente gli eventi futuri all'avvio
-    bottone1.click();
+    async function StampaEventi (eventi, lista)
+    {
+        if (eventi.length === 0)
+        {
+            const li = document.createElement("li");
+            li.textContent = "Nessun evento trovato";
+            lista.appendChild(li);
+            return;
+        }
+
+        eventi.forEach(evento => {
+            const li = document.createElement("li");
+            li.textContent = `${evento.nome} - ${formatDate(evento.data_evento)} alle ${evento.ora_evento} - Iscritti: ${evento.numero_iscritti}`;
+            lista.appendChild(li);
+        });
+    }
+
+    try
+    {
+        const {eventiFuturi} = caricaEventi();
+        lista1.innerHTML = ""; // Pulisce la lista
+        console.log("Eventi futuri:", eventiFuturi);
+        eventiFuturi = eventiFuturi.slice(0, 3);
+        StampaEventi(eventiFuturi, lista1);
+    }
+    catch (error)
+    {
+        console.error("Errore:", error);
+        lista1.innerHTML = "<li>Errore nel caricamento degli eventi</li>";
+    }
+
+    try
+    {
+        const {eventiPassati} = caricaEventi();
+        lista2.innerHTML = ""; // Pulisce la lista
+        eventiPassati = eventiPassati.slice(0, 3);
+        
+        StampaEventi(eventiPassati, lista2);
+    }
+    catch (error)
+    {
+        console.error("Errore:", error);
+        lista2.innerHTML = "<li>Errore nel caricamento degli eventi</li>";
+    }
 };
