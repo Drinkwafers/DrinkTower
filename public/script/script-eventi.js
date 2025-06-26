@@ -1,22 +1,47 @@
-window.onload = function () {
+window.onload = function ()
+{
     const bottone1 = document.getElementById("bottone1");
     const lista1 = document.getElementById("lista1");
     const bottone2 = document.getElementById("bottone2");
     const lista2 = document.getElementById("lista2");
 
     // Funzione per formattare la data
-    function formatDate(dateString) {
+    function formatDate(dateString)
+    {
         const date = new Date(dateString);
         return date.toLocaleDateString('it-IT');
     }
 
-    // Funzione per caricare gli eventi
-    async function caricaEventi() {
-        try {
+    bottone1.addEventListener("click", async () => {
+        try
+        {
             const response = await fetch('/users');
-            if (!response.ok) {
-                throw new Error('Errore nel recupero degli eventi');
+            if (!response.ok)
+            {
+                throw new Error('Errore nel recupero degli utenti');
             }
+            const data = await response.json();
+            lista1.textContent = "";
+            data.forEach(user => {
+                const li = document.createElement("li");
+                li.textContent = user.nome + " - " + user.email;
+                lista1.appendChild(li);
+            });
+        }
+        catch (error)
+        {
+            console.error("Errore:", error);
+        }
+    });
+
+    // Funzione per caricare gli eventi
+    async function caricaEventi()
+    {
+        try
+        {
+            const response = await fetch('/users');
+            if (!response.ok)
+                throw new Error('Errore nel recupero degli eventi');
             const eventi = await response.json();
             
             const oggi = new Date();
@@ -30,15 +55,15 @@ window.onload = function () {
                 const dataEvento = new Date(evento.data_evento);
                 dataEvento.setHours(0, 0, 0, 0);
                 
-                if (dataEvento >= oggi) {
+                if (dataEvento >= oggi)
                     eventiFuturi.push(evento);
-                } else {
+                else
                     eventiPassati.push(evento);
-                }
             });
 
-            return { eventiFuturi, eventiPassati };
-        } catch (error) {
+            return {eventiFuturi, eventiPassati};
+        } catch (error)
+        {
             console.error("Errore:", error);
             return { eventiFuturi: [], eventiPassati: [] };
         }
@@ -46,11 +71,13 @@ window.onload = function () {
 
     // Gestione click bottone eventi futuri
     bottone1.addEventListener("click", async () => {
-        try {
-            const { eventiFuturi } = await caricaEventi();
+        try
+        {
+            const {eventiFuturi} = await caricaEventi();
             lista1.innerHTML = ""; // Pulisce la lista
             
-            if (eventiFuturi.length === 0) {
+            if (eventiFuturi.length === 0)
+            {
                 const li = document.createElement("li");
                 li.textContent = "Nessun evento futuro al momento";
                 lista1.appendChild(li);
@@ -62,7 +89,8 @@ window.onload = function () {
                 li.textContent = `${evento.nome} - ${formatDate(evento.data_evento)} alle ${evento.ora_evento} - Iscritti: ${evento.numero_iscritti}`;
                 lista1.appendChild(li);
             });
-        } catch (error) {
+        } catch (error)
+        {
             console.error("Errore:", error);
             lista1.innerHTML = "<li>Errore nel caricamento degli eventi</li>";
         }
@@ -70,11 +98,13 @@ window.onload = function () {
 
     // Gestione click bottone eventi passati
     bottone2.addEventListener("click", async () => {
-        try {
-            const { eventiPassati } = await caricaEventi();
+        try
+        {
+            const {eventiPassati} = await caricaEventi();
             lista2.innerHTML = ""; // Pulisce la lista
             
-            if (eventiPassati.length === 0) {
+            if (eventiPassati.length === 0)
+            {
                 const li = document.createElement("li");
                 li.textContent = "Nessun evento passato trovato";
                 lista2.appendChild(li);
@@ -89,7 +119,8 @@ window.onload = function () {
                 li.textContent = `${evento.nome} - ${formatDate(evento.data_evento)} alle ${evento.ora_evento} - Iscritti: ${evento.numero_iscritti}`;
                 lista2.appendChild(li);
             });
-        } catch (error) {
+        } catch (error)
+        {
             console.error("Errore:", error);
             lista2.innerHTML = "<li>Errore nel caricamento degli eventi</li>";
         }

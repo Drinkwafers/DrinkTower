@@ -10,7 +10,8 @@ app.use(express.static("public"));
 app.use(express.json());
 
 // Creo un pool di connessioni
-const pool = mysql.createPool({
+const pool = mysql.createPool(
+{
     host: "localhost",
     user: "user1",
     password: "pass1",
@@ -51,31 +52,37 @@ app.get("/restricted.html", (req, res) => {
     }
 });
 
-// API per recuperare gli eventi (CORRETTO: usa tabella eventi)
+// API per recuperare gli eventi
 app.get("/users", async (req, res) => {
     const query = "SELECT * FROM eventi ORDER BY data_evento ASC";
     const connection = await pool.promise().getConnection();
-    try {
+    try
+    {
         const [righe, colonne] = await connection.execute(query);
         res.json(righe);
-    } catch (err) {
+    } catch (err)
+    {
         console.error("Errore durante l'esecuzione della query:", err);
-        res.status(500).json({
+        res.status(500).json(
+        {
             success: false,
             message: "Errore nel recupero degli eventi"
         });
-    } finally {
+    } finally
+    {
         connection.release();
     }
 });
 
 // API per aggiungere un nuovo evento (AGGIUNTO)
 app.post("/add-user", async (req, res) => {
-    const { nome, data_evento, ora_evento, numero_iscritti } = req.body;
+    const {nome, data_evento, ora_evento, numero_iscritti} = req.body;
     
     // Validazione base
-    if (!nome || !data_evento || !ora_evento) {
-        return res.status(400).json({
+    if (!nome || !data_evento || !ora_evento)
+    {
+        return res.status(400).json(
+        {
             success: false,
             message: "Nome, data e ora sono obbligatori"
         });
@@ -84,19 +91,24 @@ app.post("/add-user", async (req, res) => {
     const query = "INSERT INTO eventi (nome, data_evento, ora_evento, numero_iscritti) VALUES (?, ?, ?, ?)";
     const connection = await pool.promise().getConnection();
     
-    try {
-        await connection.execute(query, [nome, data_evento, ora_evento, numero_iscritti || 0]);
-        res.json({
+    try
+    {
+        await connection.execute(query, [nome, data_evento, ora_evento, 0]);
+        res.json(
+        {
             success: true,
             message: "Evento aggiunto con successo!"
         });
-    } catch (err) {
+    } catch (err)
+    {
         console.error("Errore durante l'inserimento:", err);
-        res.status(500).json({
+        res.status(500).json(
+        {
             success: false,
             message: "Errore nell'aggiunta dell'evento"
         });
-    } finally {
+    } finally
+    {
         connection.release();
     }
 });
