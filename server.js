@@ -10,7 +10,6 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(express.static("public"));
-app.use('/private', express.static('private'));
 
 const JWT_SECRET = "mia_chiave_super_segreta";
 
@@ -31,21 +30,26 @@ function authenticateToken(req, res, next)
 {
     const token = req.cookies.token;
 
-    if (!token) {
-        return res.redirect(302, "/index.html");
+    if (!token)
+    {
+        return res.redirect(302, "/accesso.html");
     }
-    try {
+    try
+    {
         const payload = jwt.verify(token, JWT_SECRET);
         req.user = payload;
         next();
     }
-    catch (err) {
-        return res.redirect(302, "/index.html");
+    catch (err)
+    {
+        return res.redirect(302, "/accesso.html");
     }
 }
 
+
 // Proteggo la cartella /private
 app.use("/private", authenticateToken, express.static("private"));
+
 
 // Endpoint login con controllo nel DB
 app.post("/api/login", async (req, res) => {
@@ -68,8 +72,7 @@ app.post("/api/login", async (req, res) => {
 
         if (righe.length == 0)
         {
-            return res.status(401).json(
-            { // Unauthorized
+            return res.status(401).json({ // Unauthorized
                 success: false,
                 message: "Credenziali non valide"
             });
@@ -82,33 +85,28 @@ app.post("/api/login", async (req, res) => {
             userName: user.nome,
         };
 
-        const token = jwt.sign(payload, JWT_SECRET,
-        {
+        const token = jwt.sign(payload, JWT_SECRET, {
             algorithm: "HS256",
             expiresIn: "1h"
         });
 
         // Imposto il cookie
-        res.cookie("token", token,
-        {
+        res.cookie("token", token, {
             httpOnly: true,
             secure: true,
             maxAge: 3600000,
             sameSite: "Strict"
         });
 
-        return res.json(
-        {
+        return res.json({
             success: true,
             message: "Login riuscito"
         });
 
     }
-    catch (err)
-    {
+    catch (err) {
         console.error("Errore query DB:", err);
-        return res.status(500).json(
-        {
+        return res.status(500).json({
             success: false,
             message: "Errore interno al server"
         });
@@ -120,8 +118,7 @@ app.post("/api/login", async (req, res) => {
 // Endpoit per il logout
 app.post("/api/logout", authenticateToken, (req, res) => {
     res.clearCookie("token");
-    res.json(
-    {
+    res.json({
         success: true,
         message: "Logout effettuato"
     });
@@ -129,45 +126,32 @@ app.post("/api/logout", authenticateToken, (req, res) => {
 
 
 app.get("/api/userinfo", authenticateToken, (req, res) => {
-    res.json(
-    {
+    res.json({
         success: true,
         nome: req.user.userName
     });
 });
 
+// API per aggiungere un utente
+app.post("/add-user", (req, res) => {
 
-// Middleware per loggare il metodo HTTP, l'URL e la durata della richiesta
-app.use((req, res, next) => {
-    const start = Date.now();
-    res.on('finish', () => {
-        const duration = Date.now() - start;
-        console.log(`${req.method} ${req.url} - ${duration}ms`);
-    });
-    next();
-});
+    const { nome, email, password} = req.body;
 
-// Login - imposta il cookie
-app.get("/login", (req, res) => {
-    res.cookie("auth", "true", { maxAge: 600000, httpOnly: true, secure: true });
-    res.redirect("/restricted.html");
-});
-
-// Logout - cancella il cookie
-app.get("/logout", (req, res) => {
-    res.clearCookie("auth");
-    res.redirect("/");
-});
-
-// Accesso all'area riservata
-app.get("/restricted.html", (req, res) => {
-    if (req.cookies.auth === "true")
-    {
-        res.sendFile(__dirname + "/private/restricted.html");
-    } else
-    {
-        res.redirect("/denied.html");
+    if (!nome || !email || !password) { // Bad Request
+        return res.status(400).json({ success: false, message: "Nome, email e password sono obbligatori!" });
     }
+
+    // Preparo la query di inserimento
+    const query = "INSERT INTO utenti (nome, email, password) VALUES (?, ?, ?)";
+
+    connection.execute(query, [nome, email, password], (err, results) => {
+        if (err) { // Internal Server Error
+            console.error("Errore nell\'inserimento: " + err.stack);
+            return res.status(500).json({ success: false, message: "Errore nell\'inserimento nel database" });
+        }
+        return res.json({ success: true, message: "Utente aggiunto con successo!" });
+    });
+
 });
 
 // API per recuperare gli eventi
@@ -232,7 +216,7 @@ app.post("/add-user", async (req, res) => {
 });
 
 // Middleware per gestire errori 404
-app.use((req, res, next) => {
+app.use((req, res) => {
     res.status(404).sendFile(__dirname + '/public/404.html');
 });
 

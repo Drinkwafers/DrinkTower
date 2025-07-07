@@ -586,7 +586,7 @@ footer
     background: var(--celeste2);
 }
 
-#login-section
+.sezione-accesso
 {
     display: flex;
     flex-direction: column;
@@ -641,4 +641,107 @@ footer
     font-weight: 600;
     font-size: 1em;
     transition: all 0.3s ease;
+}
+
+/* Registrazione */
+/* Nascondi la checkbox */
+#toggle-register {
+    display: none;
+}
+
+/* Stile per la sezione di registrazione */
+.register-form-wrapper {
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--arancioNew);
+    border-radius: 8px;
+    width: fit-content;
+    /* Nascosta di default */
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+/* Mostra login di default */
+#login-wrapper {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    transition: all 0.4s ease;
+}
+
+/* Quando la checkbox è attiva */
+#toggle-register:checked ~ #login-wrapper {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+#toggle-register:checked ~ #register-wrapper {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+}
+
+/* Stile per il toggle */
+.toggle-section {
+    margin: 2em 0;
+    text-align: center;
+}
+
+.toggle-label {
+    background: var(--arancio1);
+    color: white;
+    padding: 0.8em 1.5em;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    display: inline-block;
+    border: 2px solid transparent;
+}
+
+.toggle-label:hover {
+    transform: scale(1.05);
+    background: var(--arancio2);
+}
+
+/* Testi del toggle */
+.register-text {
+    display: none;
+}
+
+.login-text {
+    display: inline;
+}
+
+#toggle-register:checked ~ .toggle-section .login-text {
+    display: none;
+}
+
+#toggle-register:checked ~ .toggle-section .register-text {
+    display: inline;
+}
+
+/* Animazione più fluida per le transizioni */
+.login-form-wrapper,
+.register-form-wrapper {
+    transform-origin: top center;
+}
+
+#toggle-register:checked ~ #login-wrapper {
+    transform: scaleY(0);
+}
+
+#toggle-register:checked ~ #register-wrapper {
+    transform: scaleY(1);
 }

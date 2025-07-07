@@ -5,7 +5,7 @@
         <title>DrinkTower</title>
         <link rel="stylesheet" type="text/css" href="stile/stile.css">
         <link rel="icon" href="immagini/LogoScontornato.png">
-        <script src="script/script-login.js"></script>
+        <script src="script/script-accesso.js"></script>
     </head>
 
     <body>
@@ -18,28 +18,42 @@
             </div>
         </header>
 
-        <div id="login-section">
-            <div class="login-form-wrapper">
+        <div class="sezione-accesso">
+            <!-- Checkbox per cambiare da login a registrazione -->
+            <input type="checkbox" id="toggle-register">
+
+            <!-- Sezione Login -->
+            <div class="login-form-wrapper" id="login-wrapper">
                 <h2>Login</h2>
                 <form class="login-form" id="loginForm">
-                    <input type="email" id="email" class="input" placeholder="email">
-                    <input type="password" id="password" class="input" placeholder="password">
+                    <input type="email" id="email" class="input" placeholder="Email">
+                    <input type="password" id="password" class="input" placeholder="Password">
                     <button type="submit" id="login-user-button">Invia</button>
                 </form>
+                <p id="message"></p>
+                <a href="private/restricted.html">Vai alla pagina protetta</a>
             </div>
 
-            <p id="message"></p>
-
-            <a href="private/restricted.html">Vai alla pagina protetta</a>
-
-            <div class="line-container">
-                <p>Sei nuovo nel sito?</p>
+            <!-- Sezione Registrazione -->
+            <div class="register-form-wrapper" id="register-wrapper">
+                <h2>Registrati</h2>
+                <form class="login-form" id="registerForm">
+                    <input type="text" id="nome-register" class="input" placeholder="Nome Cognome" required>
+                    <input type="email" id="email-register" class="input" placeholder="Email" required>
+                    <input type="password" id="password-register" class="input" placeholder="Password" required>
+                    <input type="submit" id="register-user-button" value="Registrati">
+                </form>
+                <p id="register-message"></p>
             </div>
 
-            <input type="checkbox" id="menu-toggle">
-            <label for="iscrizione-checkbox" class="register-btn">Crea il tuo account qui!</label>
+            <!-- Toggle tra Login e Registrazione -->
+            <div class="toggle-section">
+                <label for="toggle-register" class="toggle-label">
+                    <span class="login-text">Sei nuovo nel sito? Crea il tuo account qui!</span>
+                    <span class="register-text">Hai già un account? Fai il login qui!</span>
+                </label>
+            </div>
         </div>
-
 
         <footer>
             <a href="index.html" id="logo-footer-hyp"><img src="immagini/ScrittaTower.png" alt="DrinkTower" id="logo-footer"></a>
