@@ -10,6 +10,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use(express.static("public"));
+app.use('/private', express.static('private'));
 
 const JWT_SECRET = "mia_chiave_super_segreta";
 
