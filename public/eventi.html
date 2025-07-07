@@ -11,40 +11,40 @@
     <body>
         <input type="checkbox" id="menu-toggle">
 
-            <header>
-                <div class="header-left"></div>
-                <div class="header-center">
-                    <a href="index.html"><img src="immagini/ScrittaTower.png" alt="DrinkTower" class="logo"></a>
+        <header>
+            <div class="header-left"></div>
+            <div class="header-center">
+                <a href="index.html"><img src="immagini/ScrittaTower.png" alt="DrinkTower" class="logo"></a>
+            </div>
+            <div class="header-right">
+                <a href="login.html" class="login-btn">Login</a>
+                <label for="menu-toggle" class="menu-icon">&#9776;</label>
+            </div>
+        </header>
+
+        <!-- filtro opaco -->
+        <div class="overlay" id = "overlay"></div>
+
+
+        <nav>
+            <ul>
+                <li><a class="current" href="index.html">Home</a></li>
+                <li><a href="eventi.html">Eventi Belli</a></li>
+                <li><a href="#">Merch</a></li>
+                <li><a href="#">Scatti</a></li>
+            </ul>
+
+            <div id="nav-footer">
+                <div id="icone-social-footer">
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="default" src="immagini/social/instagram.png" alt="instagram" class="icon"></a>
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="hover" src="immagini/social/instagram_arancione.png" alt="instagram" class="icon"></a>
                 </div>
-                <div class="header-right">
-                    <a href="login.html" class="login-btn">Login</a>
-                    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+                <div id="icone-social-footer">
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="default" src="immagini/social/youtube.png" alt="youtube" class="icon"></a>
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="hover" src="immagini/social/youtube_arancione.png" alt="youtube" class="icon"></a>
                 </div>
-            </header>
-
-            <!-- filtro opaco -->
-            <div class="overlay" id = "overlay"></div>
-
-
-            <nav>
-                <ul>
-                    <li><a class="current" href="index.html">Home</a></li>
-                    <li><a href="eventi.html">Eventi Belli</a></li>
-                    <li><a href="#">Merch</a></li>
-                    <li><a href="#">Scatti</a></li>
-                </ul>
-
-                <div id="nav-footer">
-                    <div id="icone-social-footer">
-                        <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="default" src="immagini/social/instagram.png" alt="instagram" class="icon"></a>
-                        <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="hover" src="immagini/social/instagram_arancione.png" alt="instagram" class="icon"></a>
-                    </div>
-                    <div id="icone-social-footer">
-                        <a href="https://www.youtube.com/@DrinkTower"><img id="default" src="immagini/social/youtube.png" alt="youtube" class="icon"></a>
-                        <a href="https://www.youtube.com/@DrinkTower"><img id="hover" src="immagini/social/youtube_arancione.png" alt="youtube" class="icon"></a>
-                    </div>
-                </div>
-            </nav>
+            </div>
+        </nav>
         <section id="eventi-prox" class="eventi">
             <h2>Prossimi eventi</h2>
             <ul id="lista1"></ul>
