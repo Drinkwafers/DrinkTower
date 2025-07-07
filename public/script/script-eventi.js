@@ -44,7 +44,7 @@ window.onload = async function ()
         if (eventi.length === 0)
         {
             const li = document.createElement("li");
-            li.textContent = "Nessun evento trovato";
+            li.innerHTML  = "Nessun evento trovato";
             lista.appendChild(li);
             return;
         }
@@ -52,7 +52,12 @@ window.onload = async function ()
         eventi.forEach(evento => {
             const li = document.createElement("li");
             const data = new Date(evento.data_evento);
-            li.textContent = `${evento.nome} - ${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento} - Iscritti: ${evento.numero_iscritti}`;
+            li.innerHTML = `<div id="frame-wrapper"><p>${evento.nome}</p><img id="frame-film" src="script/copertine/miniatura.webp" alt="frame"></div>
+                            <div id="frame-descrizione">
+                                <p>${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</p>
+                                <button type="button" id="info" value="16">Info</button>
+                            </div>`
+            //li.innerHTML  = `${evento.nome}<br></li><div id="data"> ${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</div>`;
             lista.appendChild(li);
         });
     }
