@@ -133,25 +133,33 @@ app.get("/api/userinfo", authenticateToken, (req, res) => {
 });
 
 // API per aggiungere un utente
-app.post("/add-user", (req, res) => {
-
-    const { nome, email, password} = req.body;
-
-    if (!nome || !email || !password) { // Bad Request
-        return res.status(400).json({ success: false, message: "Nome, email e password sono obbligatori!" });
+app.post("/add-user", async (req, res) => {
+    const { nome, email, password } = req.body;
+     if (!nome || !email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Nome, email e password sono obbligatori!"
+        });
     }
-
-    // Preparo la query di inserimento
     const query = "INSERT INTO utenti (nome, email, password) VALUES (?, ?, ?)";
-
-    connection.execute(query, [nome, email, password], (err, results) => {
-        if (err) { // Internal Server Error
-            console.error("Errore nell\'inserimento: " + err.stack);
-            return res.status(500).json({ success: false, message: "Errore nell\'inserimento nel database" });
-        }
-        return res.json({ success: true, message: "Utente aggiunto con successo!" });
-    });
-
+    const connection = await pool.promise().getConnection();
+    try {
+        await connection.execute(query, [nome, email, password]);
+        return res.json({
+            success: true,
+            message: "Utente aggiunto con successo!"
+        });
+    }
+    catch (err) {
+        console.error("Errore nell'inserimento:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Errore nell'inserimento nel database"
+        });
+    }
+    finally {
+        connection.release();
+    }
 });
 
 // API per recuperare gli eventi
