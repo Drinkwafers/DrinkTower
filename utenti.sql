@@ -9,4 +9,5 @@ CREATE TABLE utenti (
 
 -- Inserimento dei dati
 INSERT INTO utenti (nome, email, password) VALUES
-('Alessandro Bevilacqua', 'drinkwater@gmail.com', '27122003'),;
+('Alessandro Bevilacqua', 'drinkwater@gmail.com', '27122003'),
+('Peppe Lentini', 'peppe@gmail.com', 'Pist4cchio');

@@ -52,7 +52,7 @@ window.onload = async function ()
         eventi.forEach(evento => {
             const li = document.createElement("li");
             const data = new Date(evento.data_evento);
-            li.innerHTML = `<div id="frame-wrapper"><p>${evento.nome}</p><img id="frame-film" src="script/copertine/miniatura.webp" alt="frame"></div>
+            li.innerHTML = `<div id="frame-wrapper"><p>${evento.nome}</p><img id="frame-film" src=${evento.copertina} alt="frame"></div>
                             <div id="frame-descrizione">
                                 <p>${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</p>
                                 <button type="button" id="info" value="16">Info</button>

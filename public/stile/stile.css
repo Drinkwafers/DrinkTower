@@ -46,7 +46,7 @@ body
 /* Stile per la prima sezione con sfondo immagine */
 #sec1
 {
-    background-image: url(../immagini/TuttaLaTower.jpg);
+    background-image: url(../immagini/TuttaLaTower.webp);
     background-size: cover; /* cover è la piu adatta */
     background-position: center 32%; /* allineamento ad hoc per l'immagine */
     background-attachment: fixed;
@@ -270,7 +270,8 @@ h1
     letter-spacing: .032em;
     line-height: 1.2;
     margin-bottom: 0;
-    /* text-transform: uppercase; */
+    text-transform: uppercase;
+    text-align: center;
     color: var(--arancio1);
     text-shadow: 4px 0 1px rgba(0, 0, 0, 0.3);
 }
@@ -544,33 +545,28 @@ footer
 
 #frame-descrizione #info
 {
-    background-color: var(--celeste0);
-    color: var(--arancioNew);
+    color: var(--celeste2);
+    background-color: transparent;
     border: none;
-    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: underline;
     cursor: pointer;
-    
     position: static;
     margin-right: 3px;
-    font-size: 0.9em;
+    font-size: 1em;
 }
 
-#frame-descrizione #info:hover
-{
-    background-color: #0056b3;
-}
-
-#eventi-pass, #eventi-pass #frame-descrizione #info
+#eventi-pass
 {
     background-color: var(--arancio0);
 }
 
-#eventi-pass h2, #eventi-pass #frame-wrapper p, #eventi-pass #info
+#eventi-pass h2, #eventi-pass #frame-wrapper p
 {
     color: var(--celeste2);
 }
 
-#eventi-pass p
+#eventi-pass #frame-descrizione, #eventi-pass #frame-descrizione #info
 {
     color: var(--arancioNew);
 }
