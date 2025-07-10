@@ -26,6 +26,7 @@
         <!-- filtro opaco -->
         <div class="overlay" id = "overlay"></div>
 
+
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -46,38 +47,29 @@
             </div>
         </nav>
 
-        <div class="corpo">
-            <div class="info">
-                <img id="locandina-film-info" src="img/little-miss-sunshine-cover.jpg" alt="cover"/>
-                <div class="info-film" id="info-film">
-                    <h1 id="nome-film-info">Nome Evento</h1>
-                    <p id="durata-film-info">descrizione</p>
-                    <h3>Proiezioni disponibili</h3>
-                        <div class="proiezioni-disponibili">
-                            <ul id="proiezioni-disponibili-film">
-                            </ul>
-                        </div>
-                    <p id="descrizione-film-info"></p>
+        <div id="frame-wrapper"><p>${evento.nome}</p><img id="frame-film" src=${evento.copertina} alt="frame"></div>
+        <div id="frame-descrizione">
+            <p>${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</p>
+            <a href="/info?id=${evento.id}" class="info">Info</a>
+        </div>`
+
+            
+        <footer>
+            <a href="index.html" id="logo-footer-hyp"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" id="logo-footer"></a>
+            <a href="https://linkedin.com/in/alessandro-bevilacqua-430a40304" class="link"><p>&copy; 2025 Bevilacqua Alessandro</p></a>
+            <a href="mailto:drinktowerprod@gmail.com" class="link">drinktowerprod@gmail.com</a>
+            <div id="social">
+                <div id="icone-social-footer">
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="default" src="immagini/social/instagram_arancione.webp" alt="instagram" class="icon"></a>
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="hover" src="immagini/social/instagram.webp" alt="instagram" class="icon"></a>
+                </div>
+                <a href="tel:+393451280229" class="link" id="phone">+39 345 128 0229</a>
+                <div id="icone-social-footer">
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="default" src="immagini/social/youtube_arancione.webp" alt="youtube" class="icon"></a>
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="hover" src="immagini/social/youtube.webp" alt="youtube" class="icon"></a>
                 </div>
             </div>
-
-            <footer>
-                <a href="index.html" id="logo-footer-hyp"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" id="logo-footer"></a>
-                <a href="https://linkedin.com/in/alessandro-bevilacqua-430a40304" class="link"><p>&copy; 2025 Bevilacqua Alessandro</p></a>
-                <a href="mailto:drinktowerprod@gmail.com" class="link">drinktowerprod@gmail.com</a>
-                <div id="social">
-                    <div id="icone-social-footer">
-                        <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="default" src="immagini/social/instagram_arancione.webp" alt="instagram" class="icon"></a>
-                        <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="hover" src="immagini/social/instagram.webp" alt="instagram" class="icon"></a>
-                    </div>
-                    <a href="tel:+393451280229" class="link" id="phone">+39 345 128 0229</a>
-                    <div id="icone-social-footer">
-                        <a href="https://www.youtube.com/@DrinkTower"><img id="default" src="immagini/social/youtube_arancione.webp" alt="youtube" class="icon"></a>
-                        <a href="https://www.youtube.com/@DrinkTower"><img id="hover" src="immagini/social/youtube.webp" alt="youtube" class="icon"></a>
-                    </div>
-                </div>
-                <a href="https://maps.app.goo.gl/gxGYvL1jgiYj6pGfA" class="link"><p>Via Alessio Lorenzini 23<br>06123 Perugia</p></a>
-            </footer>
-        </div>
+            <a href="https://maps.app.goo.gl/gxGYvL1jgiYj6pGfA" class="link"><p>Via Alessio Lorenzini 23<br>06123 Perugia</p></a>
+        </footer>
     </body>
 </html>

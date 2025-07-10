@@ -55,9 +55,7 @@ window.onload = async function ()
             li.innerHTML = `<div id="frame-wrapper"><p>${evento.nome}</p><img id="frame-film" src=${evento.copertina} alt="frame"></div>
                             <div id="frame-descrizione">
                                 <p>${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</p>
-                                <button type="button" id="info" value="16">Info</button>
                             </div>`
-            //li.innerHTML  = `${evento.nome}<br></li><div id="data"> ${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</div>`;
             lista.appendChild(li);
         });
     }

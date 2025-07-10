@@ -95,6 +95,8 @@ header a
 .logo
 {
     height: 4.8em;
+    /*background: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;*/
     /* object-fit: contain; */
 }
 
@@ -543,12 +545,9 @@ footer
     margin: 0 0 0 3px;
 }
 
-#frame-descrizione #info
+#frame-descrizione .info
 {
     color: var(--celeste2);
-    background-color: transparent;
-    border: none;
-    font-weight: bold;
     text-decoration: underline;
     cursor: pointer;
     position: static;
@@ -566,7 +565,7 @@ footer
     color: var(--celeste2);
 }
 
-#eventi-pass #frame-descrizione, #eventi-pass #frame-descrizione #info
+#eventi-pass #frame-descrizione, #eventi-pass #frame-descrizione .info
 {
     color: var(--arancioNew);
 }
@@ -740,4 +739,13 @@ footer
 
 #toggle-register:checked ~ #register-wrapper {
     transform: scaleY(1);
+}
+
+#fullscreen-info
+{
+    background-image: url(../copertine/prima_tv_la_partita.webp);
+    background-size: cover; /* cover è la piu adatta */
+    background-position: center 32%; /* allineamento ad hoc per l'immagine */
+    background-attachment: fixed;
+    color: var(--celeste1);
 }

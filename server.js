@@ -4,7 +4,7 @@ const mysql = require("mysql2");
 const jwt = require("jsonwebtoken");
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(cookieParser());
 app.use(express.json());
@@ -114,7 +114,6 @@ app.post("/api/login", async (req, res) => {
 
 });
 
-
 // Endpoit per il logout
 app.post("/api/logout", authenticateToken, (req, res) => {
     res.clearCookie("token");
@@ -221,6 +220,11 @@ app.post("/add-user", async (req, res) => {
     {
         connection.release();
     }
+});
+
+// Route per servire la pagina info.html
+app.get("/info", (req, res) => {
+    res.sendFile(__dirname + '/public/info.html');
 });
 
 // Middleware per gestire errori 404
