@@ -2,10 +2,10 @@
 <html lang="it">
     <head>
         <meta charset="UTF-8">
-        <title>DrinkTower</title>
+        <title>Info Evento - DrinkTower</title>
         <link rel="stylesheet" type="text/css" href="stile/stile.css">
         <link rel="icon" href="immagini/LogoScontornato.webp">
-        <script src="script/script-eventi.js"></script>
+        <script src="script/script-info.js"></script>
         <script src="script/script-globale.js"></script>
     </head>
 
@@ -24,8 +24,7 @@
         </header>
 
         <!-- filtro opaco -->
-        <div class="overlay" id = "overlay"></div>
-
+        <div class="overlay" id="overlay"></div>
 
         <nav>
             <ul>
@@ -47,12 +46,48 @@
             </div>
         </nav>
 
-        <div id="frame-wrapper"><p>${evento.nome}</p><img id="frame-film" src=${evento.copertina} alt="frame"></div>
-        <div id="frame-descrizione">
-            <p>${data.toLocaleDateString('it-IT')} alle ${evento.ora_evento}</p>
-            <a href="/info?id=${evento.id}" class="info">Info</a>
-        </div>`
+        <div class="corpo-info">
+            <div class="loading" id="loading-message">
+                <h2>Caricamento evento...</h2>
+            </div>
 
+            <div id="info-contenuto">
+                <div id="evento-info-container">
+                    <div class="frame-wrapper">
+                        <p id="evento-nome">Nome Evento</p>
+                        <div class="evento-immagine">
+                            <img src="" alt="" id="evento-copertina">
+                        </div>
+                    </div>
+
+                    <div class="frame-descrizione">
+                        <div class="evento-dettagli">
+                            <div class="evento-data">
+                                <p><strong id="evento-data-formattata">Data evento</strong></p>
+                                <p>Ore <span id="evento-ora">00:00</span></p>
+                            </div>
+                            <div class="info-partecipanti">
+                                <p><strong>Partecipanti:</strong> <span id="evento-partecipanti">0</span></p>
+                            </div>
+                            <div>
+                                <p id="evento-descrizione"></p>
+                            </div>
+                        </div>
+                        <div class="evento-azioni">
+                            <a href="eventi.html" class="btn-torna">← Torna agli eventi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="evento-errore" style="display: none;">
+                <h2>Evento non trovato</h2>
+                <p id="messaggio-errore">Si è verificato un errore.</p>
+                <div class="evento-azioni">
+                    <a href="eventi.html" class="btn-torna">← Torna agli eventi</a>
+                </div>
+            </div>
+        </div>
             
         <footer>
             <a href="index.html" id="logo-footer-hyp"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" id="logo-footer"></a>

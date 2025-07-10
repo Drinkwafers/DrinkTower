@@ -183,8 +183,55 @@ app.get("/users", async (req, res) => {
     }
 });
 
+app.get("/api/evento/:id", async (req, res) => {
+    const eventoId = req.params.id;
+    
+    if (!eventoId || isNaN(eventoId))
+    {
+        return res.status(400).json(
+        {
+            success: false,
+            message: "ID evento non valido"
+        });
+    }
+
+    const query = "SELECT * FROM eventi WHERE id = ?";
+    const connection = await pool.promise().getConnection();
+    
+    try
+    {
+        const [righe, colonne] = await connection.execute(query, [eventoId]);
+        
+        if (righe.length === 0)
+        {
+            return res.status(404).json(
+            {
+                success: false,
+                message: "Evento non trovato"
+            });
+        }
+        
+        res.json(
+        {
+            success: true,
+            evento: righe[0]
+        });
+    } catch (err)
+    {
+        console.error("Errore durante l'esecuzione della query:", err);
+        res.status(500).json(
+        {
+            success: false,
+            message: "Errore nel recupero dell'evento"
+        });
+    } finally
+    {
+        connection.release();
+    }
+});
+
 // API per aggiungere un nuovo evento (AGGIUNTO)
-app.post("/add-user", async (req, res) => {
+app.post("/add-evento", async (req, res) => {
     const {nome, data_evento, ora_evento, numero_iscritti} = req.body;
     
     // Validazione base

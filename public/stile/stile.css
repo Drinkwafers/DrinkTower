@@ -487,7 +487,7 @@ footer
     flex-wrap: wrap;
 }
 
-.eventi li
+.eventi li,  #evento-info-container
 {
     width: 26%;
     background-color: var(--arancio0);
@@ -498,7 +498,7 @@ footer
     margin-bottom: 2em;
 }
 
-#frame-wrapper
+.frame-wrapper
 {
     display: flex;
     flex-direction: column;
@@ -507,7 +507,7 @@ footer
     position: relative;
 }
 
-#frame-wrapper img
+.frame-wrapper img
 {
     width: 96%;
     height: auto;
@@ -516,7 +516,7 @@ footer
     border-radius: 4px;
 }
 
-#frame-wrapper p
+.frame-wrapper p
 {
     position: absolute;
     font-size: 1.5em;
@@ -528,7 +528,7 @@ footer
     white-space: nowrap; /* non va a capo */
 }
 
-#frame-descrizione
+.frame-descrizione
 {
     display: flex;
     color: var(--celeste2);
@@ -540,12 +540,12 @@ footer
     margin: 1%;
 }
 
-#frame-descrizione p
+.frame-descrizione p
 {
     margin: 0 0 0 3px;
 }
 
-#frame-descrizione .info
+.frame-descrizione .info
 {
     color: var(--celeste2);
     text-decoration: underline;
@@ -560,12 +560,12 @@ footer
     background-color: var(--arancio0);
 }
 
-#eventi-pass h2, #eventi-pass #frame-wrapper p
+#eventi-pass h2, #eventi-pass .frame-wrapper p
 {
     color: var(--celeste2);
 }
 
-#eventi-pass #frame-descrizione, #eventi-pass #frame-descrizione .info
+#eventi-pass .frame-descrizione, #eventi-pass .frame-descrizione .info
 {
     color: var(--arancioNew);
 }
@@ -748,4 +748,10 @@ footer
     background-position: center 32%; /* allineamento ad hoc per l'immagine */
     background-attachment: fixed;
     color: var(--celeste1);
+}
+
+#info-contenuto
+{
+    display: none;
+    text-align: center;
 }
