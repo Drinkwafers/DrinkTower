@@ -64,21 +64,3 @@ function popolaEvento(evento)
     immagineCopertina.src = evento.copertina;
     immagineCopertina.alt = evento.nome;
 }
-
-async function caricaDescrizione(percorsoDescrizione)
-{
-    try
-    {
-        const response = await fetch(percorsoDescrizione);
-        if (response.ok)
-        {
-            const descrizioneHtml = await response.text();
-            const containerDescrizione = document.getElementById('evento-descrizione');
-            containerDescrizione.innerHTML = descrizioneHtml;
-            containerDescrizione.style.display = 'block';
-        }
-    } catch (error) {
-        console.error('Errore nel caricamento della descrizione:', error);
-        // La descrizione non è essenziale, quindi non mostriamo errore
-    }
-}

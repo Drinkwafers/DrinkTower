@@ -297,6 +297,13 @@ h1
     text-decoration: underline;
 }
 
+#zelda
+{
+    cursor: text;
+    color: var(--celeste2);
+    text-decoration: none;
+}
+
 #sec2-container-1
 {
     width: 61.8%;
