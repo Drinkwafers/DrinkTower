@@ -18,12 +18,7 @@ window.onload = async function() {
         
         // Popola i singoli elementi
         popolaEvento(evento);
-        
-        // Carica la descrizione se presente
-        if (evento.descrizione)
-        {
-            await caricaDescrizione(evento.descrizione);
-        }
+        caricaDescrizione(evento.descrizione);
         
     } catch (error)
     {
@@ -56,11 +51,18 @@ function popolaEvento(evento)
     
     // Popola numero partecipanti
     document.getElementById('evento-partecipanti').textContent = evento.numero_iscritti;
-
-    document.getElementById('evento-descrizione').textContent = evento.descrizione;
     
     // Popola immagine copertina
     const immagineCopertina = document.getElementById('evento-copertina');
     immagineCopertina.src = evento.copertina;
     immagineCopertina.alt = evento.nome;
+}
+
+async function caricaDescrizione(percorsoDescrizione)
+{
+    const response = await fetch(percorsoDescrizione);
+    const descrizioneHtml = await response.text();
+    const containerDescrizione = document.getElementById('evento-descrizione');
+    containerDescrizione.innerHTML = descrizioneHtml;
+    containerDescrizione.style.display = 'block';
 }

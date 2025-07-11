@@ -823,6 +823,11 @@ footer
     padding: 1em 0;
 }
 
+#dettagli-info
+{
+    font-weight: normal;
+}
+
 #iscriviti-btn
 {
     background: var(--arancio1);
