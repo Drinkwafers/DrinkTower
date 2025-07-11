@@ -13,7 +13,9 @@
         <input type="checkbox" id="menu-toggle">
 
         <header>
-            <div class="header-left"></div>
+            <div class="header-left">
+                <a href="eventi.html" class="btn-torna"><img src="immagini/arrow_back.svg"></a>
+            </div>
             <div class="header-center">
                 <a href="index.html"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" class="logo"></a>
             </div>
@@ -46,45 +48,29 @@
             </div>
         </nav>
 
-        <div class="corpo-info">
-            <div class="loading" id="loading-message">
-                <h2>Caricamento evento...</h2>
-            </div>
-
-            <div id="info-contenuto">
-                <div id="evento-info-container">
-                    <div class="frame-wrapper">
-                        <p id="evento-nome">Nome Evento</p>
-                        <div class="evento-immagine">
-                            <img src="" alt="" id="evento-copertina">
-                        </div>
-                    </div>
-
-                    <div class="frame-descrizione">
-                        <div class="evento-dettagli">
-                            <div class="evento-data">
-                                <p><strong id="evento-data-formattata">Data evento</strong></p>
-                                <p>Ore <span id="evento-ora">00:00</span></p>
-                            </div>
-                            <div class="info-partecipanti">
-                                <p><strong>Partecipanti:</strong> <span id="evento-partecipanti">0</span></p>
-                            </div>
-                            <div>
-                                <p id="evento-descrizione"></p>
-                            </div>
-                        </div>
-                        <div class="evento-azioni">
-                            <a href="eventi.html" class="btn-torna">← Torna agli eventi</a>
-                        </div>
+        <div id="corpo-info">
+            <div id="evento-info-container">
+                <div class="frame-wrapper" id="frame-wrapper-info">
+                    <p id="evento-nome">Nome Evento</p>
+                    <div class="evento-immagine">
+                        <img src="" alt="" id="evento-copertina">
                     </div>
                 </div>
-            </div>
 
-            <div id="evento-errore" style="display: none;">
-                <h2>Evento non trovato</h2>
-                <p id="messaggio-errore">Si è verificato un errore.</p>
-                <div class="evento-azioni">
-                    <a href="eventi.html" class="btn-torna">← Torna agli eventi</a>
+                <div class="frame-descrizione">
+                    <div class="evento-dettagli">
+                        <div class="evento-data">
+                            <p id="evento-data-formattata">Data evento</p>
+                            <p>Ore <span id="evento-ora">00:00</span></p>
+                        </div>
+                        <div>
+                            <p id="evento-descrizione"></p>
+                        </div>
+                        <div class="evento-data">
+                            <p>Partecipanti: <span id="evento-partecipanti">0</span></p>
+                            <button type="submit" id="iscriviti-btn">ISCRIVITI</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

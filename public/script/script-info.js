@@ -2,13 +2,6 @@ window.onload = async function() {
     // Ottieni l'ID dell'evento dalla URL
     const urlParams = new URLSearchParams(window.location.search);
     const eventoId = urlParams.get('id');
-    
-    if (!eventoId)
-    {
-        mostraErrore('ID evento mancante.');
-        return;
-    }
-    
     try
     {
         // Carica i dati dell'evento
@@ -27,21 +20,20 @@ window.onload = async function() {
         popolaEvento(evento);
         
         // Carica la descrizione se presente
-        if (evento.descrizione) {
+        if (evento.descrizione)
+        {
             await caricaDescrizione(evento.descrizione);
         }
         
-        // Nascondi loading e mostra contenuto
-        document.getElementById('loading-message').style.display = 'none';
-        document.getElementById('info-contenuto').style.display = 'block';
-        
-    } catch (error) {
+    } catch (error)
+    {
         console.error('Errore nel caricamento dell\'evento:', error);
         mostraErrore('Si è verificato un errore nel caricamento dell\'evento.');
     }
 };
 
-function popolaEvento(evento) {
+function popolaEvento(evento)
+{
     // Aggiorna il titolo della pagina
     document.title = `DrinkTower - ${evento.nome}`;
     
@@ -50,7 +42,8 @@ function popolaEvento(evento) {
     
     // Formatta e popola la data
     const dataEvento = new Date(evento.data_evento);
-    const dataFormattata = dataEvento.toLocaleDateString('it-IT', {
+    const dataFormattata = dataEvento.toLocaleDateString('it-IT',
+    {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
@@ -72,10 +65,13 @@ function popolaEvento(evento) {
     immagineCopertina.alt = evento.nome;
 }
 
-async function caricaDescrizione(percorsoDescrizione) {
-    try {
+async function caricaDescrizione(percorsoDescrizione)
+{
+    try
+    {
         const response = await fetch(percorsoDescrizione);
-        if (response.ok) {
+        if (response.ok)
+        {
             const descrizioneHtml = await response.text();
             const containerDescrizione = document.getElementById('evento-descrizione');
             containerDescrizione.innerHTML = descrizioneHtml;
@@ -85,11 +81,4 @@ async function caricaDescrizione(percorsoDescrizione) {
         console.error('Errore nel caricamento della descrizione:', error);
         // La descrizione non è essenziale, quindi non mostriamo errore
     }
-}
-
-function mostraErrore(messaggio) {
-    document.getElementById('loading-message').style.display = 'none';
-    document.getElementById('evento-contenuto').style.display = 'none';
-    document.getElementById('messaggio-errore').textContent = messaggio;
-    document.getElementById('evento-errore').style.display = 'block';
 }

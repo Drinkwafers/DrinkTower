@@ -68,6 +68,13 @@ window.onload = function () {
             {
                 alert(data.message);
                 regform.reset();
+
+                // Riempio i campi di login con le credenziali appena registrate
+                document.getElementById("email").value = userData.email;
+                document.getElementById("password").value = userData.password;
+                
+                // Simulo il submit del form di login per riutilizzare la funzione esistente
+                document.getElementById("loginForm").dispatchEvent(new Event('submit'));
             }
             else
             {

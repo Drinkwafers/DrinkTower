@@ -58,7 +58,7 @@ header
 {
     display: flex;
     justify-content: space-between; /* cambiato da center per distribuire gli elementi */
-    padding: 1rem 2rem;
+    padding: 1em 2em;
     z-index: 1002;
     height: 3.2em; /* altrimenti mi va fuori dallo schermo */
     padding-top: 1.75em;
@@ -640,12 +640,14 @@ footer
 
 /* Registrazione */
 /* Nascondi la checkbox */
-#toggle-register {
+#toggle-register
+{
     display: none;
 }
 
 /* Stile per la sezione di registrazione */
-.register-form-wrapper {
+.register-form-wrapper
+{
     margin: 1em;
     display: flex;
     flex-direction: column;
@@ -664,7 +666,8 @@ footer
 }
 
 /* Mostra login di default */
-#login-wrapper {
+#login-wrapper
+{
     visibility: visible;
     opacity: 1;
     height: auto;
@@ -672,7 +675,8 @@ footer
 }
 
 /* Quando la checkbox è attiva */
-#toggle-register:checked ~ #login-wrapper {
+#toggle-register:checked ~ #login-wrapper
+{
     visibility: hidden;
     opacity: 0;
     height: 0;
@@ -750,8 +754,91 @@ footer
     color: var(--celeste1);
 }
 
-#info-contenuto
+#evento-info-container
 {
-    display: none;
-    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.btn-torna
+{
+    position: fixed;
+    left: 2em; /* stesso posizionamento del menu-icon ma a sinistra */
+    cursor: pointer;
+    z-index: 2000;
+    transition: transform 0.3s ease;
+    background: var(--celeste1);
+    padding: 8.5px 16px; /* stesso padding del menu-icon */
+    border-radius: 6px;
+    font-size: 1.5em; /* stesso font-size del menu-icon */
+}
+
+.btn-torna:hover
+{
+    transform: scale(1.1); /* stesso hover effect del menu-icon */
+}
+
+.btn-torna img
+{
+    width: 1.5em;
+    height: 1.5em; /* per mantenere le proporzioni */
+    display: block;
+}
+
+#evento-info-container
+{
+    width: 55%;
+}
+
+#frame-wrapper-info
+{
+    height: 25em;
+    object-position: bottom;
+}
+
+#evento-nome
+{
+    padding: 0.1em;
+    font-size: 2.8em;
+}
+
+.evento-data
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: var(--celeste3);
+}
+
+#corpo-info
+{
+    padding: 1em 0;
+}
+
+#iscriviti-btn
+{
+    background: var(--arancio1);
+    color: white;
+    padding: 0.4em 0.8em; 
+    border: none;
+    border-radius: 4px; 
+    font-weight: 600;
+    font-size: 0.9em; 
+    font-family: Poppins, sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+#iscriviti-btn:hover
+{
+    background: var(--arancio2);
+    transform: scale(1.05);
+}
+
+#iscriviti-btn:active
+{
+    transform: scale(0.95);
 }
