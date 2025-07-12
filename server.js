@@ -14,8 +14,7 @@ app.use(express.static("public"));
 const JWT_SECRET = "mia_chiave_super_segreta";
 
 // Creo un pool di connessioni
-const pool = mysql.createPool(
-{
+const pool = mysql.createPool({
     host: "localhost",
     user: "user1",
     password: "pass1",
@@ -25,40 +24,50 @@ const pool = mysql.createPool(
     queueLimit: 0
 });
 
+// Funzione per generare il nome della tabella dall'evento
+function generaNomeTabella(nomeEvento) {
+    return nomeEvento
+        .toLowerCase()
+        .replace(/[àáâäå]/g, 'a')
+        .replace(/[èéêë]/g, 'e')
+        .replace(/[ìíîï]/g, 'i')
+        .replace(/[òóôöø]/g, 'o')
+        .replace(/[ùúûü]/g, 'u')
+        .replace(/[ñ]/g, 'n')
+        .replace(/[ç]/g, 'c')
+        .replace(/[^a-z0-9]/g, '_')  // Sostituisce tutto ciò che non è lettera/numero con _
+        .replace(/_+/g, '_')         // Rimuove _ multipli consecutivi
+        .replace(/^_|_$/g, '');      // Rimuove _ all'inizio e alla fine
+}
+
+
+
 // Middleware di autenticazione JWT
-function authenticateToken(req, res, next)
-{
+function authenticateToken(req, res, next) {
     const token = req.cookies.token;
 
-    if (!token)
-    {
+    if (!token) {
         return res.redirect(302, "/accesso.html");
     }
-    try
-    {
+    try {
         const payload = jwt.verify(token, JWT_SECRET);
         req.user = payload;
         next();
     }
-    catch (err)
-    {
+    catch (err) {
         return res.redirect(302, "/accesso.html");
     }
 }
 
-
 // Proteggo la cartella /private
 app.use("/private", authenticateToken, express.static("private"));
-
 
 // Endpoint login con controllo nel DB
 app.post("/api/login", async (req, res) => {
     const { email, password } = req.body;
 
-    if (!email || !password)
-    {
-        return res.status(400).json(
-        {
+    if (!email || !password) {
+        return res.status(400).json({
             success: false,
             message: "Email e password sono obbligatori"
         });
@@ -66,13 +75,11 @@ app.post("/api/login", async (req, res) => {
 
     const query = "SELECT id, nome FROM utenti WHERE email = ? AND password = ?";
 
-    try
-    {
+    try {
         const [righe, colonne] = await pool.promise().execute(query, [email, password]);
 
-        if (righe.length == 0)
-        {
-            return res.status(401).json({ // Unauthorized
+        if (righe.length == 0) {
+            return res.status(401).json({
                 success: false,
                 message: "Credenziali non valide"
             });
@@ -90,7 +97,6 @@ app.post("/api/login", async (req, res) => {
             expiresIn: "1h"
         });
 
-        // Imposto il cookie
         res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -111,10 +117,9 @@ app.post("/api/login", async (req, res) => {
             message: "Errore interno al server"
         });
     }
-
 });
 
-// Endpoit per il logout
+// Endpoint per il logout
 app.post("/api/logout", authenticateToken, (req, res) => {
     res.clearCookie("token");
     res.json({
@@ -123,6 +128,145 @@ app.post("/api/logout", authenticateToken, (req, res) => {
     });
 });
 
+// Endpoint per iscriversi ad un evento con tabella dinamica
+app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
+    const { eventoId } = req.body;
+    const utenteId = req.user.userId;
+    const userName = req.user.userName;
+    
+    if (!eventoId) {
+        return res.status(400).json({
+            success: false,
+            message: "ID evento obbligatorio"
+        });
+    }
+
+    const connection = await pool.promise().getConnection();
+    
+    try {
+        // Verifica che l'evento esista e ottieni i suoi dati
+        const [eventoRighe] = await connection.execute(
+            "SELECT nome, data_evento FROM eventi WHERE id = ?", 
+            [eventoId]
+        );
+        
+        if (eventoRighe.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Evento non trovato"
+            });
+        }
+        
+        const evento = eventoRighe[0];
+        const dataEvento = new Date(evento.data_evento);
+        const oggi = new Date();
+        oggi.setHours(0, 0, 0, 0);
+        
+        if (dataEvento < oggi) {
+            return res.status(400).json({
+                success: false,
+                message: "Non è possibile prenotare eventi passati"
+            });
+        }
+        
+        // Genera il nome della tabella dinamicamente
+        const nomeTabella = generaNomeTabella(evento.nome);
+        
+        // Ottieni email dell'utente
+        const [utenteRighe] = await connection.execute(
+            "SELECT email FROM utenti WHERE id = ?",
+            [utenteId]
+        );
+        
+        if (utenteRighe.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Utente non trovato"
+            });
+        }
+        
+        const userEmail = utenteRighe[0].email;
+        
+        // Verifica se l'utente è già iscritto alla tabella specifica
+        const checkQuery = `SELECT num_prenotazione FROM \`${nomeTabella}\` WHERE utente_id = ?`;
+        const [prenotazioniEsistenti] = await connection.execute(checkQuery, [utenteId]);
+        
+        if (prenotazioniEsistenti.length > 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Sei già iscritto a questo evento"
+            });
+        }
+        
+        // Inserisci la prenotazione nella tabella specifica
+        const insertQuery = `INSERT INTO \`${nomeTabella}\` (utente_id, nome, email) VALUES (?, ?, ?)`;
+        await connection.execute(insertQuery, [utenteId, userName, userEmail]);
+        
+        // Aggiorna il contatore dei partecipanti
+        await connection.execute(
+            "UPDATE eventi SET numero_iscritti = numero_iscritti + 1 WHERE id = ?",
+            [eventoId]
+        );
+        
+        res.json({
+            success: true,
+            message: "Prenotazione effettuata con successo!",
+            tabella: nomeTabella
+        });
+        
+    } catch (err) {
+        console.error("Errore nella prenotazione:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore interno del server"
+        });
+    } finally {
+        connection.release();
+    }
+});
+
+// Endpoint per verificare se un utente è già iscritto ad un evento
+app.get("/api/verifica-prenotazione/:eventoId", authenticateToken, async (req, res) => {
+    const eventoId = req.params.eventoId;
+    const utenteId = req.user.userId;
+    
+    const connection = await pool.promise().getConnection();
+    
+    try {
+        // Ottieni il nome dell'evento
+        const [eventoRighe] = await connection.execute(
+            "SELECT nome FROM eventi WHERE id = ?",
+            [eventoId]
+        );
+        
+        if (eventoRighe.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Evento non trovato"
+            });
+        }
+        
+        const nomeTabella = generaNomeTabella(eventoRighe[0].nome);
+        
+        // Controlla se l'utente è iscritto
+        const checkQuery = `SELECT num_prenotazione FROM \`${nomeTabella}\` WHERE utente_id = ?`;
+        const [righe] = await connection.execute(checkQuery, [utenteId]);
+        
+        res.json({
+            success: true,
+            iscritto: righe.length > 0
+        });
+        
+    } catch (err) {
+        console.error("Errore nella verifica prenotazione:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore interno del server"
+        });
+    } finally {
+        connection.release();
+    }
+});
 
 app.get("/api/userinfo", authenticateToken, (req, res) => {
     res.json({
@@ -165,20 +309,16 @@ app.post("/add-user", async (req, res) => {
 app.get("/users", async (req, res) => {
     const query = "SELECT * FROM eventi ORDER BY data_evento ASC";
     const connection = await pool.promise().getConnection();
-    try
-    {
+    try {
         const [righe, colonne] = await connection.execute(query);
         res.json(righe);
-    } catch (err)
-    {
+    } catch (err) {
         console.error("Errore durante l'esecuzione della query:", err);
-        res.status(500).json(
-        {
+        res.status(500).json({
             success: false,
             message: "Errore nel recupero degli eventi"
         });
-    } finally
-    {
+    } finally {
         connection.release();
     }
 });
@@ -186,10 +326,8 @@ app.get("/users", async (req, res) => {
 app.get("/api/evento/:id", async (req, res) => {
     const eventoId = req.params.id;
     
-    if (!eventoId || isNaN(eventoId))
-    {
-        return res.status(400).json(
-        {
+    if (!eventoId || isNaN(eventoId)) {
+        return res.status(400).json({
             success: false,
             message: "ID evento non valido"
         });
@@ -198,47 +336,37 @@ app.get("/api/evento/:id", async (req, res) => {
     const query = "SELECT * FROM eventi WHERE id = ?";
     const connection = await pool.promise().getConnection();
     
-    try
-    {
+    try {
         const [righe, colonne] = await connection.execute(query, [eventoId]);
         
-        if (righe.length === 0)
-        {
-            return res.status(404).json(
-            {
+        if (righe.length === 0) {
+            return res.status(404).json({
                 success: false,
                 message: "Evento non trovato"
             });
         }
         
-        res.json(
-        {
+        res.json({
             success: true,
             evento: righe[0]
         });
-    } catch (err)
-    {
+    } catch (err) {
         console.error("Errore durante l'esecuzione della query:", err);
-        res.status(500).json(
-        {
+        res.status(500).json({
             success: false,
             message: "Errore nel recupero dell'evento"
         });
-    } finally
-    {
+    } finally {
         connection.release();
     }
 });
 
-// API per aggiungere un nuovo evento (AGGIUNTO)
+// API per aggiungere un nuovo evento
 app.post("/add-evento", async (req, res) => {
     const {nome, data_evento, ora_evento, numero_iscritti} = req.body;
     
-    // Validazione base
-    if (!nome || !data_evento || !ora_evento)
-    {
-        return res.status(400).json(
-        {
+    if (!nome || !data_evento || !ora_evento) {
+        return res.status(400).json({
             success: false,
             message: "Nome, data e ora sono obbligatori"
         });
@@ -247,24 +375,19 @@ app.post("/add-evento", async (req, res) => {
     const query = "INSERT INTO eventi (nome, data_evento, ora_evento, numero_iscritti) VALUES (?, ?, ?, ?)";
     const connection = await pool.promise().getConnection();
     
-    try
-    {
+    try {
         await connection.execute(query, [nome, data_evento, ora_evento, 0]);
-        res.json(
-        {
+        res.json({
             success: true,
             message: "Evento aggiunto con successo!"
         });
-    } catch (err)
-    {
+    } catch (err) {
         console.error("Errore durante l'inserimento:", err);
-        res.status(500).json(
-        {
+        res.status(500).json({
             success: false,
             message: "Errore nell'aggiunta dell'evento"
         });
-    } finally
-    {
+    } finally {
         connection.release();
     }
 });

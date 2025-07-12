@@ -830,6 +830,7 @@ footer
 
 #iscriviti-btn
 {
+    display: none;
     background: var(--arancio1);
     color: white;
     padding: 0.4em 0.8em; 
