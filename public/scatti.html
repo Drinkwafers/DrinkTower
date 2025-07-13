@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>DrinkTower - Scatti</title>
+        <link rel="stylesheet" type="text/css" href="stile/stile.css">
+        <link rel="icon" href="immagini/LogoScontornato.webp">
+        <script src="script/script-scatti.js"></script>
+        <script src="script/script-globale.js"></script>
+    </head>
+
+    <body>
+        <input type="checkbox" id="menu-toggle">
+
+        <header>
+            <div class="header-left"></div>
+            <div class="header-center">
+                <a href="index.html"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" class="logo"></a>
+            </div>
+            <div class="header-right">
+                <a href="accesso.html" class="login-btn">Login</a>
+                <label for="menu-toggle" class="menu-icon">&#9776;</label>
+            </div>
+        </header>
+
+        <!-- filtro opaco -->
+        <div class="overlay" id="overlay"></div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="eventi.html">Eventi Belli</a></li>
+                
+                <li><a class="current" href="scatti.html">Scatti</a></li>
+            </ul>
+
+            <div id="nav-footer">
+                <div id="icone-social-footer">
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="default" src="immagini/social/instagram.webp" alt="instagram" class="icon"></a>
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="hover" src="immagini/social/instagram_arancione.webp" alt="instagram" class="icon"></a>
+                </div>
+                <div id="icone-social-footer">
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="default" src="immagini/social/youtube.webp" alt="youtube" class="icon"></a>
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="hover" src="immagini/social/youtube_arancione.webp" alt="youtube" class="icon"></a>
+                </div>
+            </div>
+        </nav>
+
+        <section class="scatti-header">
+            <h1>I nostri scatti</h1>
+            <p>Rivivi i momenti più belli delle nostre serate!</p>
+        </section>
+
+        <section class="filtri-scatti">
+            <div class="filtri-container">
+                <button class="filtro-btn active" data-categoria="tutti">Tutti</button>
+                <button class="filtro-btn" data-categoria="eventi">Eventi</button>
+                <button class="filtro-btn" data-categoria="feste">Feste</button>
+                <button class="filtro-btn" data-categoria="cene">Cene</button>
+                <button class="filtro-btn" data-categoria="giochi">Giochi</button>
+            </div>
+        </section>
+
+        <section class="galleria-scatti">
+            <div class="galleria-container" id="galleria-container">
+                <!-- Scatti Eventi -->
+                <div class="scatto-item" data-categoria="eventi" data-indice="0">
+                    <img src="immagini/TuttaLaTower.webp" alt="Capodanno 2024" class="scatto-img">
+                    <div class="scatto-categoria">eventi</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Capodanno 2024</div>
+                        <div class="scatto-data">31 dicembre 2024</div>
+                        <p class="scatto-descrizione">Una notte indimenticabile per salutare il nuovo anno con tutti i nostri amici della DrinkTower!</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="eventi" data-indice="1">
+                    <img src="immagini/TuttaLaTower.webp" alt="Finale Champions League" class="scatto-img">
+                    <div class="scatto-categoria">eventi</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Finale Champions League</div>
+                        <div class="scatto-data">28 maggio 2024</div>
+                        <p class="scatto-descrizione">Tifosi scatenati per la partita più importante dell'anno! Atmosfera da stadio garantita.</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="eventi" data-indice="2">
+                    <img src="immagini/TuttaLaTower.webp" alt="Giornata del Grazie" class="scatto-img">
+                    <div class="scatto-categoria">eventi</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Giornata del Grazie 2024</div>
+                        <div class="scatto-data">29 novembre 2024</div>
+                        <p class="scatto-descrizione">Un momento speciale per celebrare tutto quello che ci unisce come famiglia universitaria.</p>
+                    </div>
+                </div>
+
+                <!-- Scatti Feste -->
+                <div class="scatto-item" data-categoria="feste" data-indice="3">
+                    <img src="immagini/TuttaLaTower.webp" alt="Carnevale Carlicchiano" class="scatto-img">
+                    <div class="scatto-categoria">feste</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Carnevale Carlicchiano</div>
+                        <div class="scatto-data">13 febbraio 2024</div>
+                        <p class="scatto-descrizione">Maschere, creatività e tanti colori per una notte magica e divertente!</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="feste" data-indice="4">
+                    <img src="immagini/TuttaLaTower.webp" alt="Festa di Primavera" class="scatto-img">
+                    <div class="scatto-categoria">feste</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Festa di Primavera</div>
+                        <div class="scatto-data">20 marzo 2024</div>
+                        <p class="scatto-descrizione">Musica, balli e divertimento fino all'alba in una serata piena di energia positiva.</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="feste" data-indice="5">
+                    <img src="immagini/TuttaLaTower.webp" alt="Notte Bianca DrinkTower" class="scatto-img">
+                    <div class="scatto-categoria">feste</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Notte Bianca DrinkTower</div>
+                        <div class="scatto-data">15 settembre 2024</div>
+                        <p class="scatto-descrizione">Una notte che non finisce mai, con DJ set e tanta voglia di divertirsi insieme.</p>
+                    </div>
+                </div>
+
+                <!-- Scatti Cene -->
+                <div class="scatto-item" data-categoria="cene" data-indice="6">
+                    <img src="immagini/TuttaLaTower.webp" alt="Pizza Party" class="scatto-img">
+                    <div class="scatto-categoria">cene</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Pizza Party</div>
+                        <div class="scatto-data">21 giugno 2024</div>
+                        <p class="scatto-descrizione">La pizza più buona della città condivisa con la migliore compagnia possibile!</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="cene" data-indice="7">
+                    <img src="immagini/TuttaLaTower.webp" alt="Cena Sociale" class="scatto-img">
+                    <div class="scatto-categoria">cene</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Cena Sociale di Benvenuto</div>
+                        <div class="scatto-data">5 ottobre 2024</div>
+                        <p class="scatto-descrizione">Il primo appuntamento dell'anno accademico per conoscersi e fare amicizia.</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="cene" data-indice="8">
+                    <img src="immagini/TuttaLaTower.webp" alt="Aperitivo in Terrazza" class="scatto-img">
+                    <div class="scatto-categoria">cene</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Aperitivo in Terrazza</div>
+                        <div class="scatto-data">8 luglio 2024</div>
+                        <p class="scatto-descrizione">Tramonto, drink e chiacchiere tra amici nella nostra terrazza panoramica.</p>
+                    </div>
+                </div>
+
+                <!-- Scatti Giochi -->
+                <div class="scatto-item" data-categoria="giochi" data-indice="9">
+                    <img src="immagini/TuttaLaTower.webp" alt="Poker Stitico" class="scatto-img">
+                    <div class="scatto-categoria">giochi</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Poker Stitico</div>
+                        <div class="scatto-data">25 giugno 2024</div>
+                        <p class="scatto-descrizione">Strategia, bluff e tanto divertimento nel nostro torneo settimanale di poker!</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="giochi" data-indice="10">
+                    <img src="immagini/TuttaLaTower.webp" alt="Torneo di Calcetto" class="scatto-img">
+                    <div class="scatto-categoria">giochi</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Torneo di Calcetto</div>
+                        <div class="scatto-data">12 aprile 2024</div>
+                        <p class="scatto-descrizione">Sfide accese e fair play nel nostro torneo mensile di calcio a 5.</p>
+                    </div>
+                </div>
+
+                <div class="scatto-item" data-categoria="giochi" data-indice="11">
+                    <img src="immagini/TuttaLaTower.webp" alt="Quiz Night" class="scatto-img">
+                    <div class="scatto-categoria">giochi</div>
+                    <div class="scatto-overlay">
+                        <div class="scatto-titolo">Quiz Night</div>
+                        <div class="scatto-data">18 marzo 2024</div>
+                        <p class="scatto-descrizione">Cultura, risate e competizione sana nella nostra serata quiz più divertente!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal per visualizzare l'immagine ingrandita -->
+        <div id="modal-immagine" class="modal-overlay">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <img id="modal-img" src="" alt="">
+                <div class="modal-info">
+                    <h3 id="modal-titolo"></h3>
+                    <p id="modal-descrizione"></p>
+                    <span id="modal-data"></span>
+                </div>
+                <div class="modal-nav">
+                    <button id="modal-prev">&lt;</button>
+                    <button id="modal-next">&gt;</button>
+                </div>
+            </div>
+        </div>
+    
+        <footer>
+            <a href="index.html" id="logo-footer-hyp"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" id="logo-footer"></a>
+            <a href="https://linkedin.com/in/alessandro-bevilacqua-430a40304" class="link"><p>&copy; 2025 Bevilacqua Alessandro</p></a>
+            <a href="mailto:drinktowerprod@gmail.com" class="link">drinktowerprod@gmail.com</a>
+            <div id="social">
+                <div id="icone-social-footer">
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="default" src="immagini/social/instagram_arancione.webp" alt="instagram" class="icon"></a>
+                    <a href="https://www.instagram.com/drinktower?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><img id="hover" src="immagini/social/instagram.webp" alt="instagram" class="icon"></a>
+                </div>
+                <a href="tel:+393451280229" class="link" id="phone">+39 345 128 0229</a>
+                <div id="icone-social-footer">
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="default" src="immagini/social/youtube_arancione.webp" alt="youtube" class="icon"></a>
+                    <a href="https://www.youtube.com/@DrinkTower"><img id="hover" src="immagini/social/youtube.webp" alt="youtube" class="icon"></a>
+                </div>
+            </div>
+            <a href="https://maps.app.goo.gl/gxGYvL1jgiYj6pGfA" class="link"><p>Via Alessio Lorenzini 23<br>06123 Perugia</p></a>
+        </footer>
+    </body>
+</html>

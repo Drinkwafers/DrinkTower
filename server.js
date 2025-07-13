@@ -96,7 +96,7 @@ app.post("/api/login", async (req, res) => {
         });
     }
 
-    const query = "SELECT id, nome FROM utenti WHERE email = ? AND password = ?";
+    const query = "SELECT id, nome, admin FROM utenti WHERE email = ? AND password = ?";
 
     try {
         const [righe, colonne] = await pool.promise().execute(query, [email, password]);
@@ -113,6 +113,7 @@ app.post("/api/login", async (req, res) => {
         const payload = {
             userId: user.id,
             userName: user.nome,
+            admin: user.admin  
         };
 
         const token = jwt.sign(payload, JWT_SECRET, {

@@ -18,6 +18,16 @@ window.onload = async function () {
             document.getElementById("userName").textContent = userData.nome;
         }
 
+        if (userData.admin)
+        {
+            // Mostro l'area admin se l'utente è admin
+            const areaAdmin = document.getElementById("area-admin");
+            areaAdmin.innerHTML = `
+                <h2>Area Admin</h2>
+                <ul>
+                    <li><a href="/admin/aggiungi-eventi.html">Gestione Eventi</a></li>
+                </ul>`;
+        }
         // Carico le prenotazioni dell'utente
         await caricaPrenotazioniUtente();
 
@@ -178,71 +188,6 @@ async function disiscriviDaEvento(eventoId) {
         console.error('Errore nella disiscrizione:', error);
         alert('Si è verificato un errore durante la disiscrizione.');
     }
-}
-
-// Funzione per inizializzare il form di modifica password
-function inizializzaModificaPassword() {
-    const formModificaPassword = document.getElementById("modifica-password-form");
-    
-    if (!formModificaPassword) {
-        console.warn("Form modifica password non trovato");
-        return;
-    }
-    
-    formModificaPassword.addEventListener("submit", async function(e) {
-        e.preventDefault();
-        
-        const vecchiaPassword = document.getElementById("vecchia-password").value;
-        const nuovaPassword = document.getElementById("nuova-password").value;
-        const messaggioEl = document.getElementById("messaggio-modifica");
-        
-        // Pulisci messaggi precedenti
-        messaggioEl.textContent = "";
-        messaggioEl.className = "";
-        
-        // Validazione lato client
-        if (!vecchiaPassword || !nuovaPassword) {
-            mostraMessaggio("Tutti i campi sono obbligatori.", "errore");
-            return;
-        }
-        
-        if (nuovaPassword.length < 6) {
-            mostraMessaggio("La nuova password deve essere di almeno 6 caratteri.", "errore");
-            return;
-        }
-        
-        if (vecchiaPassword === nuovaPassword) {
-            mostraMessaggio("La nuova password deve essere diversa da quella attuale.", "errore");
-            return;
-        }
-        
-        try {
-            const response = await fetch('/api/cambia-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include',
-                body: JSON.stringify({
-                    passwordAttuale: vecchiaPassword,
-                    nuovaPassword: nuovaPassword
-                })
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                mostraMessaggio('Password modificata con successo!', "successo");
-                formModificaPassword.reset();
-            } else {
-                mostraMessaggio('Errore: ' + data.message, "errore");
-            }
-            
-        } catch (error) {
-            console.error('Errore nella modifica password:', error);
-            mostraMessaggio('Si è verificato un errore durante la modifica password.', "errore");
-        }
-    });
 }
 
 // Funzione helper per mostrare messaggi
