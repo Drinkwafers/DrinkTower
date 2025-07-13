@@ -89,21 +89,30 @@ async function gestisciBottonePrenotazione(dataEvento)
         bottonePrenotazione.style.display = 'block';
         
         // Controlla se l'utente è già iscritto
-        try {
+        try
+        {
             const response = await fetch(`/api/verifica-prenotazione/${eventoId}`, {
                 credentials: 'include'
             });
             
-            if (response.ok) {
+            if (response.ok)
+            {
                 const data = await response.json();
-                if (data.success && data.iscritto) {
+                if (data.success && data.iscritto)
+                {
                     // Utente già iscritto - mostra stato prenotato
                     mostraStatoPrenotato();
                     return;
                 }
+            } else
+            {
+                // Utente non loggato, reindirizza al login
+                window.location.href = '/accesso.html';
+                return;
             }
-        } catch (error) {
-            console.log('Errore nel controllo prenotazione, probabilmente utente non loggato');
+        } catch (error)
+        {
+            console.log('Errore nel controllo prenotazione, probabilmente utente non loggato', error);
         }
         
         // Utente non iscritto - aggiungi event listener per prenotazione
@@ -119,6 +128,7 @@ async function gestisciBottonePrenotazione(dataEvento)
 
 async function prenotaEvento(eventoId)
 {
+    console.log('entrato nella funzione per gestione click prenotazione');
     try
     {
         // Controlla se l'utente è autenticato
@@ -126,6 +136,8 @@ async function prenotaEvento(eventoId)
         {
             credentials: 'include'
         });
+
+        console.log('authResponse:', authResponse);
         
         if (!authResponse.ok)
         {
@@ -170,7 +182,7 @@ async function prenotaEvento(eventoId)
 
 function mostraErrore(messaggio)
 {
-    // Funzione per mostrare errori (mancava nel codice originale)
+    // Funzione per mostrare errori 
     alert(messaggio);
     window.location.href = '/eventi.html';
 }

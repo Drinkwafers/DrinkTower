@@ -42,7 +42,7 @@ function generaNomeTabella(nomeEvento) {
 
 
 
-// Middleware di autenticazione JWT
+// Middleware di autenticazione JWT per pagine (con redirect)
 function authenticateToken(req, res, next) {
     const token = req.cookies.token;
 
@@ -56,6 +56,29 @@ function authenticateToken(req, res, next) {
     }
     catch (err) {
         return res.redirect(302, "/accesso.html");
+    }
+}
+
+// Middleware di autenticazione JWT per API (con errore JSON)
+function authenticateAPI(req, res, next) {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: "Token mancante"
+        });
+    }
+    try {
+        const payload = jwt.verify(token, JWT_SECRET);
+        req.user = payload;
+        next();
+    }
+    catch (err) {
+        return res.status(401).json({
+            success: false,
+            message: "Token non valido"
+        });
     }
 }
 
@@ -120,7 +143,7 @@ app.post("/api/login", async (req, res) => {
 });
 
 // Endpoint per il logout
-app.post("/api/logout", authenticateToken, (req, res) => {
+app.post("/api/logout", authenticateAPI, (req, res) => {
     res.clearCookie("token");
     res.json({
         success: true,
@@ -128,12 +151,13 @@ app.post("/api/logout", authenticateToken, (req, res) => {
     });
 });
 
-// Endpoint per iscriversi ad un evento con tabella dinamica
-app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
+// Endpoint per iscriversi ad un evento
+app.post("/api/prenota-evento", authenticateAPI, async (req, res) => {
     const { eventoId } = req.body;
     const utenteId = req.user.userId;
     
-    if (!eventoId) {
+    if (!eventoId)
+    {
         return res.status(400).json({
             success: false,
             message: "ID evento obbligatorio"
@@ -142,7 +166,8 @@ app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
 
     const connection = await pool.promise().getConnection();
     
-    try {
+    try
+    {
         // Verifica che l'evento esista e ottieni i suoi dati
         const [eventoRighe] = await connection.execute(
             "SELECT nome, data_evento FROM eventi WHERE id = ?", 
@@ -161,7 +186,8 @@ app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
         const oggi = new Date();
         oggi.setHours(0, 0, 0, 0);
         
-        if (dataEvento < oggi) {
+        if (dataEvento < oggi)
+        {
             return res.status(400).json({
                 success: false,
                 message: "Non è possibile prenotare eventi passati"
@@ -210,7 +236,7 @@ app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
 });
 
 // Endpoint per verificare se un utente è già iscritto ad un evento
-app.get("/api/verifica-prenotazione/:eventoId", authenticateToken, async (req, res) => {
+app.get("/api/verifica-prenotazione/:eventoId", authenticateAPI, async (req, res) => {
     const eventoId = req.params.eventoId;
     const utenteId = req.user.userId;
     
@@ -252,7 +278,8 @@ app.get("/api/verifica-prenotazione/:eventoId", authenticateToken, async (req, r
     }
 });
 
-app.get("/api/userinfo", authenticateToken, (req, res) => {
+// Endpoint per ottenere le informazioni dell'utente autenticato
+app.get("/api/userinfo", authenticateAPI, (req, res) => {
     res.json({
         success: true,
         nome: req.user.userName
