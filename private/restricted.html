@@ -45,8 +45,23 @@
         </nav>
 
         <h2>Ciao <span id="userName"></span>, benvenuto nell'area riservata</h2>
-        <p>Questa pagina è accessibile solo dopo aver effettuato il login.</p>
-
+        <div class="area-personale-wrapper">
+            <div class="prenotazioni">
+                <h3>Prenotazioni</h3>
+                <ul id="lista-prenotazioni-utente">
+                </ul>
+            </div>
+            <div class="reset-password-wrapper">
+                <h3>Modifica Password</h3>
+                <form class="login-form" id="modifica-password-form">
+                    <p id="messaggio-modifica"></p>
+                    <input type="password" id="vecchia-password" class="input" placeholder="Inserisci password">
+                    <input type="password" id="nuova-password" class="input" placeholder="Conferma password">
+                    <button type="submit" id="reset-password-button">Salva</button>
+                </form>
+            </div>
+        </div>
+        
         <button id="logoutBtn">Logout</button>
 
         <footer>

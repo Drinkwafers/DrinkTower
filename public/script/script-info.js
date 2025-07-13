@@ -88,7 +88,7 @@ async function gestisciBottonePrenotazione(dataEvento)
     {
         bottonePrenotazione.style.display = 'block';
         
-        // Controlla se l'utente è già iscritto
+        // Controlla se l'utente è autenticato e già iscritto (SENZA REDIRECT)
         try
         {
             const response = await fetch(`/api/verifica-prenotazione/${eventoId}`, {
@@ -104,18 +104,16 @@ async function gestisciBottonePrenotazione(dataEvento)
                     mostraStatoPrenotato();
                     return;
                 }
-            } else
-            {
-                // Utente non loggato, reindirizza al login
-                window.location.href = '/accesso.html';
-                return;
             }
+            // Se la risposta non è ok (401 - non autenticato), non facciamo nulla
+            // Il bottone rimane normale e il redirect avverrà solo al click
         } catch (error)
         {
-            console.log('Errore nel controllo prenotazione, probabilmente utente non loggato', error);
+            console.log('Utente non autenticato o errore nella verifica', error);
+            // Non facciamo nulla, il bottone rimane normale
         }
         
-        // Utente non iscritto - aggiungi event listener per prenotazione
+        // Aggiungi event listener per prenotazione
         bottonePrenotazione.addEventListener('click', async function()
         {
             await prenotaEvento(eventoId);
@@ -131,7 +129,7 @@ async function prenotaEvento(eventoId)
     console.log('entrato nella funzione per gestione click prenotazione');
     try
     {
-        // Controlla se l'utente è autenticato
+        // Controlla se l'utente è autenticato SOLO al momento del click
         const authResponse = await fetch('/api/userinfo',
         {
             credentials: 'include'
@@ -141,7 +139,7 @@ async function prenotaEvento(eventoId)
         
         if (!authResponse.ok)
         {
-            // Utente non loggato, reindirizza al login
+            // Utente non loggato, reindirizza al login SOLO ADESSO
             window.location.href = '/accesso.html';
             return;
         }
