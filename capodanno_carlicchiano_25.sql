@@ -1,5 +1,5 @@
 DROP TABLE IF EXISTS capodanno_carlicchiano_25  CASCADE;
-CREATE TABLE capodanno_carlicchiano_25
+CREATE TABLE capodanno_carlicchiano_25 
 (
     id INT AUTO_INCREMENT PRIMARY KEY,
     evento_id INT NOT NULL,

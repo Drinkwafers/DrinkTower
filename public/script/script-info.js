@@ -1,7 +1,10 @@
+let eventoId; // Definisco la variabile nel contesto globale
+
 window.onload = async function() {
     // Ottieni l'ID dell'evento dalla URL
     const urlParams = new URLSearchParams(window.location.search);
-    const eventoId = urlParams.get('id');
+    eventoId = urlParams.get('id'); // Assegno alla variabile globale
+    
     try
     {
         // Carica i dati dell'evento
@@ -19,7 +22,7 @@ window.onload = async function() {
         // Popola i singoli elementi
         popolaEvento(evento);
 
-        gestisciBottonePrenotazione(evento.data_evento);
+        await gestisciBottonePrenotazione(evento.data_evento);
 
         caricaDescrizione(evento.descrizione);
         
@@ -70,7 +73,7 @@ async function caricaDescrizione(percorsoDescrizione)
     containerDescrizione.style.display = 'block';
 }
 
-function gestisciBottonePrenotazione(dataEvento)
+async function gestisciBottonePrenotazione(dataEvento)
 {
     const oggi = new Date();
     oggi.setHours(0, 0, 0, 0); // Reset ore per confronto solo date
@@ -85,6 +88,25 @@ function gestisciBottonePrenotazione(dataEvento)
     {
         bottonePrenotazione.style.display = 'block';
         
+        // Controlla se l'utente è già iscritto
+        try {
+            const response = await fetch(`/api/verifica-prenotazione/${eventoId}`, {
+                credentials: 'include'
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.iscritto) {
+                    // Utente già iscritto - mostra stato prenotato
+                    mostraStatoPrenotato();
+                    return;
+                }
+            }
+        } catch (error) {
+            console.log('Errore nel controllo prenotazione, probabilmente utente non loggato');
+        }
+        
+        // Utente non iscritto - aggiungi event listener per prenotazione
         bottonePrenotazione.addEventListener('click', async function()
         {
             await prenotaEvento(eventoId);
@@ -126,10 +148,7 @@ async function prenotaEvento(eventoId)
         if (data.success)
         {
             // Successo - aggiorna l'interfaccia
-            const bottone = document.getElementById('iscriviti-btn');
-            bottone.textContent = 'PRENOTATO ✓';
-            bottone.disabled = true;
-            bottone.style.backgroundColor = '#28a745';
+            mostraStatoPrenotato();
             
             // Aggiorna il contatore dei partecipanti
             const contatore = document.getElementById('evento-partecipanti');
@@ -147,4 +166,25 @@ async function prenotaEvento(eventoId)
         console.error('Errore nella prenotazione:', error);
         alert('Si è verificato un errore durante la prenotazione.');
     }
+}
+
+function mostraErrore(messaggio)
+{
+    // Funzione per mostrare errori (mancava nel codice originale)
+    alert(messaggio);
+    window.location.href = '/eventi.html';
+}
+
+function mostraStatoPrenotato()
+{
+    // Funzione per mostrare l'interfaccia quando l'utente è già prenotato
+    const bottone = document.getElementById('iscriviti-btn');
+    bottone.textContent = 'PRENOTATO ✓';
+    bottone.disabled = true;
+    bottone.style.backgroundColor = '#28a745';
+    bottone.style.cursor = 'default';
+    
+    // Rimuovi eventuali event listener esistenti clonando il bottone
+    const nuovoBottone = bottone.cloneNode(true);
+    bottone.parentNode.replaceChild(nuovoBottone, bottone);
 }

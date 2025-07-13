@@ -132,7 +132,6 @@ app.post("/api/logout", authenticateToken, (req, res) => {
 app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
     const { eventoId } = req.body;
     const utenteId = req.user.userId;
-    const userName = req.user.userName;
     
     if (!eventoId) {
         return res.status(400).json({
@@ -172,23 +171,8 @@ app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
         // Genera il nome della tabella dinamicamente
         const nomeTabella = generaNomeTabella(evento.nome);
         
-        // Ottieni email dell'utente
-        const [utenteRighe] = await connection.execute(
-            "SELECT email FROM utenti WHERE id = ?",
-            [utenteId]
-        );
-        
-        if (utenteRighe.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "Utente non trovato"
-            });
-        }
-        
-        const userEmail = utenteRighe[0].email;
-        
         // Verifica se l'utente è già iscritto alla tabella specifica
-        const checkQuery = `SELECT num_prenotazione FROM \`${nomeTabella}\` WHERE utente_id = ?`;
+        const checkQuery = `SELECT id FROM \`${nomeTabella}\` WHERE utente_id = ?`;
         const [prenotazioniEsistenti] = await connection.execute(checkQuery, [utenteId]);
         
         if (prenotazioniEsistenti.length > 0) {
@@ -199,8 +183,8 @@ app.post("/api/prenota-evento", authenticateToken, async (req, res) => {
         }
         
         // Inserisci la prenotazione nella tabella specifica
-        const insertQuery = `INSERT INTO \`${nomeTabella}\` (utente_id, nome, email) VALUES (?, ?, ?)`;
-        await connection.execute(insertQuery, [utenteId, userName, userEmail]);
+        const insertQuery = `INSERT INTO \`${nomeTabella}\` (evento_id, utente_id) VALUES (?, ?)`;
+        await connection.execute(insertQuery, [eventoId, utenteId]);
         
         // Aggiorna il contatore dei partecipanti
         await connection.execute(
@@ -249,7 +233,7 @@ app.get("/api/verifica-prenotazione/:eventoId", authenticateToken, async (req, r
         const nomeTabella = generaNomeTabella(eventoRighe[0].nome);
         
         // Controlla se l'utente è iscritto
-        const checkQuery = `SELECT num_prenotazione FROM \`${nomeTabella}\` WHERE utente_id = ?`;
+        const checkQuery = `SELECT id FROM \`${nomeTabella}\` WHERE utente_id = ?`;
         const [righe] = await connection.execute(checkQuery, [utenteId]);
         
         res.json({
