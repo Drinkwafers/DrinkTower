@@ -18,6 +18,8 @@ window.onload = async function () {
             document.getElementById("userName").textContent = userData.nome;
         }
 
+        console.log(userData.admin);
+
         if (userData.admin)
         {
             // Mostro l'area admin se l'utente è admin
@@ -30,10 +32,6 @@ window.onload = async function () {
         }
         // Carico le prenotazioni dell'utente
         await caricaPrenotazioniUtente();
-
-        // Inizializzo il form per modifica password
-        inizializzaModificaPassword();
-
     }
     catch (err) {
         console.error("Errore fetch pagina protetta:", err);

@@ -113,7 +113,7 @@ app.post("/api/login", async (req, res) => {
         const payload = {
             userId: user.id,
             userName: user.nome,
-            admin: user.admin  
+            isAdmin: user.admin  
         };
 
         const token = jwt.sign(payload, JWT_SECRET, {
@@ -283,7 +283,8 @@ app.get("/api/verifica-prenotazione/:eventoId", authenticateAPI, async (req, res
 app.get("/api/userinfo", authenticateAPI, (req, res) => {
     res.json({
         success: true,
-        nome: req.user.userName
+        nome: req.user.userName,
+        isAdmin: req.user.admin
     });
 });
 
