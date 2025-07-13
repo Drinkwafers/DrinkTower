@@ -403,6 +403,192 @@ app.post("/add-evento", async (req, res) => {
     }
 });
 
+// Endpoint per ottenere gli eventi a cui l'utente è iscritto
+app.get("/api/eventi-utente", authenticateAPI, async (req, res) => {
+    const utenteId = req.user.userId;
+    
+    const connection = await pool.promise().getConnection();
+    
+    try {
+        // Prima ottieni tutti gli eventi dell'utente da tutte le tabelle di prenotazione
+        const [eventi] = await connection.execute(
+            "SELECT * FROM eventi ORDER BY data_evento ASC"
+        );
+        
+        const eventiUtente = [];
+        
+        // Per ogni evento, controlla se l'utente è iscritto
+        for (const evento of eventi) {
+            const nomeTabella = generaNomeTabella(evento.nome);
+            
+            try {
+                // Controlla se la tabella esiste e se l'utente è iscritto
+                const checkQuery = `SELECT id FROM \`${nomeTabella}\` WHERE utente_id = ? LIMIT 1`;
+                const [prenotazioni] = await connection.execute(checkQuery, [utenteId]);
+                
+                if (prenotazioni.length > 0) {
+                    eventiUtente.push(evento);
+                }
+            } catch (err) {
+                // La tabella potrebbe non esistere ancora, ignora l'errore
+                console.log(`Tabella ${nomeTabella} non trovata, skip`);
+            }
+        }
+        
+        res.json({
+            success: true,
+            eventi: eventiUtente
+        });
+        
+    } catch (err) {
+        console.error("Errore nel recupero eventi utente:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore interno del server"
+        });
+    } finally {
+        connection.release();
+    }
+});
+
+// Endpoint per disiscriversi da un evento
+app.post("/api/disiscrivi-evento", authenticateAPI, async (req, res) => {
+    const { eventoId } = req.body;
+    const utenteId = req.user.userId;
+    
+    if (!eventoId) {
+        return res.status(400).json({
+            success: false,
+            message: "ID evento obbligatorio"
+        });
+    }
+
+    const connection = await pool.promise().getConnection();
+    
+    try {
+        // Verifica che l'evento esista e ottieni i suoi dati
+        const [eventoRighe] = await connection.execute(
+            "SELECT nome, data_evento FROM eventi WHERE id = ?", 
+            [eventoId]
+        );
+        
+        if (eventoRighe.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Evento non trovato"
+            });
+        }
+        
+        const evento = eventoRighe[0];
+        const dataEvento = new Date(evento.data_evento);
+        const oggi = new Date();
+        oggi.setHours(0, 0, 0, 0);
+        
+        if (dataEvento < oggi) {
+            return res.status(400).json({
+                success: false,
+                message: "Non è possibile disiscriversi da eventi passati"
+            });
+        }
+        
+        // Genera il nome della tabella dinamicamente
+        const nomeTabella = generaNomeTabella(evento.nome);
+        
+        // Verifica se l'utente è iscritto
+        const checkQuery = `SELECT id FROM \`${nomeTabella}\` WHERE utente_id = ?`;
+        const [prenotazioniEsistenti] = await connection.execute(checkQuery, [utenteId]);
+        
+        if (prenotazioniEsistenti.length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Non sei iscritto a questo evento"
+            });
+        }
+        
+        // Rimuovi la prenotazione dalla tabella specifica
+        const deleteQuery = `DELETE FROM \`${nomeTabella}\` WHERE utente_id = ?`;
+        await connection.execute(deleteQuery, [utenteId]);
+        
+        // Aggiorna il contatore dei partecipanti
+        await connection.execute(
+            "UPDATE eventi SET numero_iscritti = numero_iscritti - 1 WHERE id = ?",
+            [eventoId]
+        );
+        
+        res.json({
+            success: true,
+            message: "Disiscrizione effettuata con successo!",
+            tabella: nomeTabella
+        });
+        
+    } catch (err) {
+        console.error("Errore nella disiscrizione:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore interno del server"
+        });
+    } finally {
+        connection.release();
+    }
+});
+
+// Endpoint per cambiare password
+app.post("/api/cambia-password", authenticateAPI, async (req, res) => {
+    const { passwordAttuale, nuovaPassword } = req.body;
+    const utenteId = req.user.userId;
+    
+    if (!passwordAttuale || !nuovaPassword) {
+        return res.status(400).json({
+            success: false,
+            message: "Password attuale e nuova password sono obbligatorie"
+        });
+    }
+    
+    if (nuovaPassword.length < 6) {
+        return res.status(400).json({
+            success: false,
+            message: "La nuova password deve essere di almeno 6 caratteri"
+        });
+    }
+    
+    const connection = await pool.promise().getConnection();
+    
+    try {
+        // Verifica la password attuale
+        const [utente] = await connection.execute(
+            "SELECT id FROM utenti WHERE id = ? AND password = ?",
+            [utenteId, passwordAttuale]
+        );
+        
+        if (utente.length === 0) {
+            return res.status(401).json({
+                success: false,
+                message: "Password attuale non corretta"
+            });
+        }
+        
+        // Aggiorna la password
+        await connection.execute(
+            "UPDATE utenti SET password = ? WHERE id = ?",
+            [nuovaPassword, utenteId]
+        );
+        
+        res.json({
+            success: true,
+            message: "Password modificata con successo"
+        });
+        
+    } catch (err) {
+        console.error("Errore nel cambio password:", err);
+        res.status(500).json({
+            success: false,
+            message: "Errore interno del server"
+        });
+    } finally {
+        connection.release();
+    }
+});
+
 // Route per servire la pagina info.html
 app.get("/info", (req, res) => {
     res.sendFile(__dirname + '/public/info.html');

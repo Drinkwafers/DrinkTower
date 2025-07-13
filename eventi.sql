@@ -21,4 +21,4 @@ INSERT INTO eventi (nome, data_evento, ora_evento, numero_iscritti, copertina, d
 ('Finale Champions League 25', '2025-05-31', '21:00:00', 15, 'copertine/finale_champions_league_25.webp', 'descrizioni/finale_champions_league_25.txt'),
 ('Pizza Party', '2025-06-21', '19:00:00', 16, 'copertine/pizza_party.webp', 'descrizioni/pizza_party.txt'),
 ('Poker stitico', '2025-06-25', '22:30:00', 8, 'copertine/poker_stitico.webp', 'descrizioni/poker_stitico.txt'),
-('Capodanno Carlicchiano 25', '2025-07-24', '19:00:00', 12, 'copertine/capodanno_carlicchiano_25.webp', 'descrizioni/capodanno_carlicchiano_25.txt');
+('Capodanno Carlicchiano 25', '2025-07-24', '19:00:00', 13, 'copertine/capodanno_carlicchiano_25.webp', 'descrizioni/capodanno_carlicchiano_25.txt');
