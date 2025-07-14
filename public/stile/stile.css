@@ -1197,3 +1197,228 @@ footer
         height: 200px;
     }
 }
+
+/* nuovo css indice */
+/* SEZIONI ANTEPRIMA */
+.anteprima-section {
+    padding: 4em 2em;
+    height: 100vh;
+}
+
+.anteprima-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.anteprima-header h2 {
+    font-size: 3em;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--arancioNew);
+    position: relative;
+}
+
+.anteprima-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background: var(--arancio1);
+}
+
+.btn-vedi-tutto {
+    background: var(--celeste2);
+    color: white;
+    padding: 0.8em 1.5em;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-vedi-tutto:hover {
+    background: var(--celeste3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* ANTEPRIMA EVENTI */
+.anteprima-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.eventi-anteprima-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5em;
+}
+
+.evento-anteprima {
+    background-color: white;
+    border: 3px solid var(--arancio1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.evento-anteprima:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.evento-anteprima-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.evento-anteprima-info {
+    padding: 1em;
+    color: var(--celeste2);
+}
+
+.evento-anteprima-nome {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: var(--arancioNew);
+}
+
+.evento-anteprima-data {
+    font-size: 0.9em;
+    color: var(--celeste3);
+    margin-bottom: 0.3em;
+}
+
+.evento-anteprima-partecipanti {
+    font-size: 0.8em;
+    color: var(--celeste2);
+}
+
+.loading-anteprima {
+    text-align: center;
+    padding: 2em;
+    color: var(--celeste3);
+    font-size: 1.1em;
+}
+
+/* ANTEPRIMA SCATTI */
+#anteprima-scatti
+{
+    background-color: var(--arancio0);
+}
+
+.anteprima-scatti-container
+{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.scatti-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1em;
+}
+
+.scatto-anteprima {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    aspect-ratio: 1;
+}
+
+.scatto-anteprima:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+}
+
+.scatto-anteprima img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.scatto-anteprima:hover img {
+    transform: scale(1.1);
+}
+
+.scatto-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: white;
+    padding: 1em;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.scatto-anteprima:hover .scatto-overlay {
+    transform: translateY(0);
+}
+
+.scatto-titolo {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--arancio1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .anteprima-section {
+        padding: 3em 1em;
+    }
+    
+    .anteprima-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1em;
+    }
+    
+    .anteprima-header h2 {
+        font-size: 2.5em;
+    }
+    
+    .eventi-anteprima-grid {
+        grid-template-columns: 1fr;
+        gap: 1em;
+    }
+    
+    .scatti-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .anteprima-header h2 {
+        font-size: 2em;
+    }
+    
+    .btn-vedi-tutto {
+        padding: 0.6em 1.2em;
+        font-size: 0.9em;
+    }
+    
+    .scatti-grid {
+        grid-template-columns: 1fr;
+    }
+}

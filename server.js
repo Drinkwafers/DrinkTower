@@ -284,7 +284,7 @@ app.get("/api/userinfo", authenticateAPI, (req, res) => {
     res.json({
         success: true,
         nome: req.user.userName,
-        isAdmin: req.user.admin
+        admin: req.user.isAdmin
     });
 });
 
