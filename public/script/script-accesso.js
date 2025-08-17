@@ -28,7 +28,7 @@ window.onload = function () {
             if (data.success)
             {
                 message.textContent = "Login effettuato con successo!";
-                window.location.href = "/private/restricted.html";
+                window.location.href = "/private/private.html";
             }
             else
             {

@@ -1,17 +1,17 @@
-// public/script/auth-check.js
 // Script per verificare lo stato di autenticazione e aggiornare l'interfaccia
 
-async function checkAuthStatus()
-{
-    try {
-        const response = await fetch('/api/userinfo',
-        {
-            credentials: 'include'
-        });
+// Inizializza il controllo dello stato al caricamento della pagina
+document.addEventListener('DOMContentLoaded', async (req, res) => {
+    try
+    {
+        // Effettua una richiesta per verificare lo stato di autenticazione
+        const response = await fetch('/api/userinfo',{credentials: 'include'});
         
+
         if (response.ok)
         {
             const data = await response.json();
+
             if (data.success)
             {
                 // Utente autenticato - aggiorna il bottone
@@ -30,7 +30,7 @@ async function checkAuthStatus()
         updateLoginButton(false);
         return false;
     }
-}
+});
 
 function updateLoginButton(isAuthenticated, userName = '')
 {
@@ -42,7 +42,7 @@ function updateLoginButton(isAuthenticated, userName = '')
     {
         // Cambia testo e destinazione per utenti autenticati
         loginBtn.textContent = 'Area Personale';
-        loginBtn.href = '/private/restricted.html';
+        loginBtn.href = '/private/private.html';
         loginBtn.title = `Benvenuto, ${userName}`;
     } else
     {
@@ -52,9 +52,3 @@ function updateLoginButton(isAuthenticated, userName = '')
         loginBtn.title = 'Accedi al tuo account';
     }
 }
-
-// Inizializza il controllo dello stato al caricamento della pagina
-document.addEventListener('DOMContentLoaded', function()
-{
-    checkAuthStatus();
-});

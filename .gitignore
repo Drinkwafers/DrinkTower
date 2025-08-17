@@ -1,0 +1,47 @@
+# ==========================
+# Node.js
+# ==========================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================
+# Ambiente / Configurazioni locali
+# ==========================
+.env
+.env.local
+*.local
+
+# ==========================
+# File temporanei / sistema
+# ==========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+
+# ==========================
+# Build / output (se in futuro userai webpack, vite ecc.)
+# ==========================
+dist/
+build/
+.cache/
+.next/
+out/
+
+# ==========================
+# Database e backup (tieni solo i tuoi .sql "ufficiali")
+# ==========================
+*.sql~
+*.sql.bak
+*.dump
+*.db
+
+# ==========================
+# Visual Studio Code / IDE vari
+# ==========================
+.vscode/
+.idea/
+*.swp

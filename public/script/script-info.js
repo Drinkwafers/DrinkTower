@@ -1,76 +1,65 @@
-let eventoId; // Definisco la variabile nel contesto globale
+let eventoId;
 
-window.onload = async function() {
-    // Ottieni l'ID dell'evento dalla URL
-    const urlParams = new URLSearchParams(window.location.search);
-    eventoId = urlParams.get('id'); // Assegno alla variabile globale
+window.onload = async function()
+{
+    // Prendo l'ID dell'evento dalla URL
+    const urlParams = new URLSearchParams(window.location.search); //window.location.search ha la parte di url dopo il ?
+    eventoId = urlParams.get('id'); // grazie alla classe URLSearchParams java sa che ho un oggetto id con un valore, e così lo estraggo
     
     try
     {
-        // Carica i dati dell'evento
+        // Carico i dati dell'evento
         const response = await fetch(`/api/evento/${eventoId}`);
-        const data = await response.json();
+        const data = await response.json(); 
         
         if (!data.success)
         {
-            mostraErrore('L\'evento richiesto non esiste.');
+            alert('L\'evento richiesto non esiste.');
+            window.location.href = '#sec-eventi';
             return;
         }
         
-        const evento = data.evento;
+        const evento = data.evento; // Rimuovo il campo success
         
-        // Popola i singoli elementi
+        // Popolo i singoli elementi
         popolaEvento(evento);
 
         await gestisciBottonePrenotazione(evento.data_evento);
 
-        caricaDescrizione(evento.descrizione);
-        
     } catch (error)
     {
         console.error('Errore nel caricamento dell\'evento:', error);
-        mostraErrore('Si è verificato un errore nel caricamento dell\'evento.');
+        alert('Si è verificato un errore nel caricamento dell\'evento.');
+        window.location.href = '#sec-eventi';
     }
 };
 
 function popolaEvento(evento)
 {
-    // Aggiorna il titolo della pagina
+    // Aggiorno il titolo della pagina
     document.title = `DrinkTower - ${evento.nome}`;
     
-    // Popola nome evento
+    // Popolo nome evento
     document.getElementById('evento-nome').textContent = evento.nome;
     
-    // Formatta e popola la data
+    // Formatto e popolo la data
     const dataEvento = new Date(evento.data_evento);
-    const dataFormattata = dataEvento.toLocaleDateString('it-IT',
-    {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+    const dataFormattata = dataEvento.toLocaleDateString('it-IT', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
     document.getElementById('evento-data-formattata').textContent = dataFormattata;
     
-    // Popola l'ora
+    // Popolo l'ora
     document.getElementById('evento-ora').textContent = evento.ora_evento;
     
-    // Popola numero partecipanti
+    // Popolo numero partecipanti
     document.getElementById('evento-partecipanti').textContent = evento.numero_iscritti;
     
-    // Popola immagine copertina
+    // Popolo immagine copertina
     const immagineCopertina = document.getElementById('evento-copertina');
     immagineCopertina.src = evento.copertina;
     immagineCopertina.alt = evento.nome;
-}
 
-async function caricaDescrizione(percorsoDescrizione)
-{
-    const response = await fetch(percorsoDescrizione);
-    const descrizioneHtml = await response.text();
-    const containerDescrizione = document.getElementById('evento-descrizione');
-    containerDescrizione.innerHTML = descrizioneHtml;
-    containerDescrizione.style.display = 'block';
+    // Popolo descrizione
+    document.getElementById('evento-descrizione').innerHTML = evento.descrizione;  
 }
 
 async function gestisciBottonePrenotazione(dataEvento)
@@ -88,7 +77,7 @@ async function gestisciBottonePrenotazione(dataEvento)
     {
         bottonePrenotazione.style.display = 'block';
         
-        // Controlla se l'utente è autenticato e già iscritto (SENZA REDIRECT)
+        // Controlla se l'utente è autenticato e già iscritto
         try
         {
             const response = await fetch(`/api/verifica-prenotazione/${eventoId}`, {
@@ -105,18 +94,18 @@ async function gestisciBottonePrenotazione(dataEvento)
                     return;
                 }
             }
-            // Se la risposta non è ok (401 - non autenticato), non facciamo nulla
+            // Se la risposta non è ok (401 - non autenticato), non faccio nulla
             // Il bottone rimane normale e il redirect avverrà solo al click
         } catch (error)
         {
             console.log('Utente non autenticato o errore nella verifica', error);
-            // Non facciamo nulla, il bottone rimane normale
+            // Non faccio nulla, il bottone rimane normale
         }
         
         // Aggiungi event listener per prenotazione
         bottonePrenotazione.addEventListener('click', async function()
         {
-            await prenotaEvento(eventoId);
+            await prenotaEvento();
         });
     } else
     {
@@ -124,27 +113,25 @@ async function gestisciBottonePrenotazione(dataEvento)
     }
 }
 
-async function prenotaEvento(eventoId)
+async function prenotaEvento()
 {
     console.log('entrato nella funzione per gestione click prenotazione');
     try
     {
-        // Controlla se l'utente è autenticato SOLO al momento del click
-        const authResponse = await fetch('/api/userinfo',
-        {
-            credentials: 'include'
-        });
+        // Controllo se l'utente è autenticato al momento del click
+        const authResponse = await fetch('/api/userinfo',{credentials: 'include'});
 
         console.log('authResponse:', authResponse);
         
         if (!authResponse.ok)
         {
-            // Utente non loggato, reindirizza al login SOLO ADESSO
+            // Utente non loggato, reindirizza al login
+            alert('Devi essere loggato per prenotare un evento.');
             window.location.href = '/accesso.html';
             return;
         }
         
-        // Effettua la prenotazione
+        // Effettuo la prenotazione
         const response = await fetch('/api/prenota-evento',
         {
             method: 'POST',
@@ -160,7 +147,7 @@ async function prenotaEvento(eventoId)
             // Successo - aggiorna l'interfaccia
             mostraStatoPrenotato();
             
-            // Aggiorna il contatore dei partecipanti
+            // Aggiorno il contatore dei partecipanti
             const contatore = document.getElementById('evento-partecipanti');
             const numeroAttuale = parseInt(contatore.textContent);
             contatore.textContent = numeroAttuale + 1;
@@ -178,13 +165,6 @@ async function prenotaEvento(eventoId)
     }
 }
 
-function mostraErrore(messaggio)
-{
-    // Funzione per mostrare errori 
-    alert(messaggio);
-    window.location.href = '/eventi.html';
-}
-
 function mostraStatoPrenotato()
 {
     // Funzione per mostrare l'interfaccia quando l'utente è già prenotato
@@ -194,7 +174,7 @@ function mostraStatoPrenotato()
     bottone.style.backgroundColor = '#28a745';
     bottone.style.cursor = 'default';
     
-    // Rimuovi eventuali event listener esistenti clonando il bottone
+    // Rimuovo eventuali event listener esistenti clonando il bottone
     const nuovoBottone = bottone.cloneNode(true);
     bottone.parentNode.replaceChild(nuovoBottone, bottone);
 }

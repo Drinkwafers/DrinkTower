@@ -5,20 +5,18 @@
         <title>DrinkTower</title>
         <link rel="stylesheet" type="text/css" href="stile/stile.css">
         <link rel="icon" href="immagini/LogoScontornato.webp">
-        <script src="script/script.js"></script>
         <script src="script/script-globale.js"></script>
+        <script src="script/script-eventi.js"></script>
     </head>
-
-
+    
     <body>
-
-        <section id = "sec1" class="fullscreen-container">
+        <section id="sec1" class="fullscreen-container">
             <input type="checkbox" id="menu-toggle">
 
             <header>
                 <div class="header-left"></div>
                 <div class="header-center">
-                    <a href="index.html"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" class="logo"></a>
+                    <a href="#sec1"><img src="immagini/ScrittaTower.webp" alt="DrinkTower" class="logo"></a>
                 </div>
                 <div class="header-right">
                     <a href="accesso.html" class="login-btn">Login</a>
@@ -32,9 +30,10 @@
 
             <nav>
                 <ul>
-                    <li><a class="current" href="index.html">Home</a></li>
-                    <li><a href="eventi.html">Eventi Belli</a></li>
-                    <li><a href="scatti.html">Scatti</a></li>
+                    <li><a class="current" href="#sec1">Home</a></li>
+                    <li><a href="#sec2">Chi Siamo</a></li>
+                    <li><a href="#sec-eventi">Eventi Belli</a></li>
+                    <li><a href="#sec3">Dove trovarci</a></li>
                 </ul>
 
                 <div id="nav-footer">
@@ -60,59 +59,29 @@
             <div id="sec2-container-2">
                 <p>
                     <a id="zelda" href="https://youtu.be/LjkjJAtcKbA?si=VPT-B9KZj03i3HKs"><strong>DrinkTower</strong></a> ha come obiettivo di essere la casa di tutti gli <strong>universitari di Perugia</strong> con una grandissima varietà di serate!<br>
-                    <strong>Cene</strong>, <strong>videogiochi</strong> e <strong>giochi da tavolo</strong> sono solo alcune delle attività organizzate dal nostro staff.<br>
+                    <strong>Cene</strong>, <a id="zelda" href="https://youtu.be/LjkjJAtcKbA?si=VPT-B9KZj03i3HKs"><strong>videogiochi</strong></a> e <strong>giochi da tavolo</strong> sono solo alcune delle attività organizzate dal nostro staff.<br>
                     E dopo un buon <strong>preserata</strong> vieni a scoprire la <strong>Perugia notturna</strong> con noi e le altre <strong>8000 birre</strong> che ci accompagneranno!<br>
                     Scopri un luogo che saprà offrirti <strong>serate indimenticabili</strong> e tantissima, ma tantissima, <span id="sburra"><strong>amicizia!</strong></span>
                 </p>
             </div>
         </section>
 
-        <!-- Sezione Anteprima Eventi -->
-        <section id="anteprima-eventi" class="anteprima-section">
-            <div class="anteprima-header">
-                <h2>Prossimo Evento</h2>
-                <a href="eventi.html" class="btn-vedi-tutto">Vedi tutti gli eventi</a>
-            </div>
-            <div class="anteprima-container" id="container-eventi-anteprima">
-                <!-- Gli eventi verranno caricati dinamicamente -->
-                <div class="loading-anteprima">Caricamento eventi...</div>
-            </div>
-        </section>
-
-        <!-- Sezione Anteprima Scatti -->
-        <section id="anteprima-scatti" class="anteprima-section">
-            <div class="anteprima-header">
-                <h2>Alcuni Scatti</h2>
-                <a href="scatti.html" class="btn-vedi-tutto">Vedi tutti gli scatti</a>
-            </div>
-            <div class="anteprima-scatti-container">
-                <div class="scatti-grid">
-                    <div class="scatto-anteprima">
-                        <img src="immagini/TuttaLaTower.webp" alt="Capodanno 2024">
-                        <div class="scatto-overlay">
-                            <span class="scatto-titolo">Capodanno 2024</span>
-                        </div>
-                    </div>
-                    <div class="scatto-anteprima">
-                        <img src="immagini/TuttaLaTower.webp" alt="Finale Champions">
-                        <div class="scatto-overlay">
-                            <span class="scatto-titolo">Finale Champions</span>
-                        </div>
-                    </div>
-                    <div class="scatto-anteprima">
-                        <img src="immagini/TuttaLaTower.webp" alt="Pizza Party">
-                        <div class="scatto-overlay">
-                            <span class="scatto-titolo">Pizza Party</span>
-                        </div>
-                    </div>
-                    <div class="scatto-anteprima">
-                        <img src="immagini/TuttaLaTower.webp" alt="Carnevale">
-                        <div class="scatto-overlay">
-                            <span class="scatto-titolo">Carnevale</span>
-                        </div>
-                    </div>
+        <section id="sec-eventi">
+            <section id="eventi-prox" class="eventi">
+                <h2>Prossimi eventi</h2>
+                <ul id="lista1"></ul>
+                <div class = "area-btn">
+                    <button id="bottone1" class="bottone"><strong>Altri eventi</strong></button>
                 </div>
-            </div>
+            </section>
+
+            <section id="eventi-pass" class="eventi">
+                <h2>Eventi passati</h2>
+                <ul id="lista2"></ul>
+                <div class = "area-btn">
+                    <button id="bottone2" class="bottone"><strong>Altri eventi</strong></button>
+                </div>
+            </section>
         </section>
 
         <section id="sec3">

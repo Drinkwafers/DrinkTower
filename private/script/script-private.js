@@ -1,7 +1,7 @@
 window.onload = async function () {
 
     try {
-        const res = await fetch("/private/restricted.html");
+        const res = await fetch("/private/private.html");
         if (res.status === 401) {
             window.location.href = "/accesso.html";
             return;
@@ -27,7 +27,7 @@ window.onload = async function () {
             areaAdmin.innerHTML = `
                 <h2>Area Admin</h2>
                 <ul>
-                    <li><a href="/admin/aggiungi-eventi.html">Gestione Eventi</a></li>
+                    <li><a href="admin/admin.html">Accedi all'area admin</a></li>
                 </ul>`;
         }
         // Carico le prenotazioni dell'utente
