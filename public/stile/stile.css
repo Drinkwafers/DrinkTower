@@ -865,3 +865,57 @@ footer
 {
     transform: scale(0.95);
 }
+
+/* #region [7] Pagina Admin */
+#select-data-evento, #select-ora-evento
+{
+    width: auto;
+}
+
+.form-wrapper, #aggiungi-evento-form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#cropper-stage
+{
+    max-width: 720px;
+    border: 1px dashed #bbb;
+    padding: .5rem;
+    margin-top: .5rem;
+}
+
+#cropper-image
+{
+    max-width: 100%;
+    display: none;
+}
+
+#bottoni-crop
+{
+    display: none;
+    gap: .5rem;
+    margin-top: .75rem;
+}
+
+#download-crop
+{
+    display:none;
+    text-decoration: underline;
+    margin-left: .5rem;
+}
+
+#anteprima-copertina
+{
+    max-width: 720px;
+    display: none;
+}
+
+#testo-descrizione
+{
+    width: 24em;
+    height: 15em;
+    resize: none;
+}
+/* #endregion */

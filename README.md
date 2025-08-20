@@ -1,11 +1,11 @@
-# Drinktower 🍹
+# Drinktowe
 
 Sito web per la gestione e la promozione degli eventi **Drinktower**.  
 Il progetto è basato su **Node.js**, **Express** e **MySQL**.
 
 ---
 
-## 📂 Struttura del progetto
+## Struttura del progetto
 
 ```
 Drinktower/
@@ -38,7 +38,7 @@ Drinktower/
 
 ---
 
-## 🚀 Installazione e avvio
+## Installazione e avvio
 
 1. **Clona la repository**
    ```bash
@@ -74,14 +74,14 @@ Drinktower/
 
 ---
 
-## 🔐 Autenticazione
+## Autenticazione
 
 - L’accesso alle aree private è gestito tramite **JWT (JSON Web Token)**.
 - I cookie sono inviati in modalità `httpOnly` e `sameSite=Strict`.
 
 ---
 
-## 👤 Account demo
+## Account demo
 
 Nella tabella `utenti.sql` sono presenti account di esempio:
 - Admin:  
@@ -93,7 +93,7 @@ Nella tabella `utenti.sql` sono presenti account di esempio:
 
 ---
 
-## 📌 Note sul repository
+## Note sul repository
 
 - La cartella `node_modules/` è esclusa tramite `.gitignore`.  
 - Dopo il clone, esegui sempre `npm install` per ricostruire le dipendenze.  
@@ -101,7 +101,7 @@ Nella tabella `utenti.sql` sono presenti account di esempio:
 
 ---
 
-## 📜 Licenza
+## Licenza
 
 Progetto a scopo didattico.  
 Autore: **Alessandro Bevilacqua**

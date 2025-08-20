@@ -10,7 +10,7 @@ window.onload = async function ()
     {
         try
         {
-            const response = await fetch('/users');
+            const response = await fetch('/api/eventi');
             const eventi = await response.json();
             
             const oggi = new Date();

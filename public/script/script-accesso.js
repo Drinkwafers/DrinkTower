@@ -86,7 +86,5 @@ window.onload = function () {
             console.error("Errore:", error);
             alert("Errore nella comunicazione con il server.");
         }
-
     });
-
 };

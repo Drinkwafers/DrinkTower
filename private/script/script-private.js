@@ -10,13 +10,10 @@ window.onload = async function () {
         document.body.innerHTML = data;
 
         // Visualizzo il nome utente
-        const userRes = await fetch("/api/userinfo", {
-            credentials: "include"
-        });
+        const userRes = await fetch("/api/userinfo", {credentials: "include"});
         const userData = await userRes.json();
-        if (userData.success) {
+        if (userData.success)
             document.getElementById("userName").textContent = userData.nome;
-        }
 
         console.log(userData.admin);
 
@@ -33,68 +30,66 @@ window.onload = async function () {
         // Carico le prenotazioni dell'utente
         await caricaPrenotazioniUtente();
     }
-    catch (err) {
+    catch (err)
+    {
         console.error("Errore fetch pagina protetta:", err);
     }
 
     // Gestione logout
     const btn = document.getElementById("logoutBtn");
-    btn.addEventListener("click", async function logout() {
-        try {
-            const res = await fetch("/api/logout", {
-                method: "POST",
-                credentials: "include"
-            });
+    btn.addEventListener("click", async function logout()
+    {
+        try
+        {
+            const res = await fetch("/api/logout", {method: "POST", credentials: "include"});
 
-            if (res.ok) {
+            if (res.ok)
                 window.location.href = "/index.html";
-            } else {
+            else
                 console.error("Errore nel logout");
-            }
-        } catch (err) {
+        } catch (err)
+        {
             console.error("Errore nella richiesta di logout:", err);
         }
     });
 };
 
 // Funzione per caricare le prenotazioni dell'utente
-async function caricaPrenotazioniUtente() {
-    try {
-        const response = await fetch('/api/eventi-utente', {
-            credentials: 'include'
-        });
+async function caricaPrenotazioniUtente()
+{
+    try
+    {
+        const response = await fetch('/api/eventi-utente', {credentials: 'include'});
         
-        if (!response.ok) {
+        if (!response.ok)
             throw new Error('Errore nel caricamento delle prenotazioni');
-        }
         
         const data = await response.json();
         
-        if (data.success) {
+        if (data.success)
             mostraPrenotazioniUtente(data.eventi);
-        } else {
+        else
             console.error("Errore nel caricamento prenotazioni:", data.message);
-        }
         
-    } catch (error) {
+    } catch (error)
+    {
         console.error("Errore nel caricamento prenotazioni utente:", error);
-        const prenotazioniLista = document.getElementById("lista-prenotazioni-utente");
-        if (prenotazioniLista) {
-            prenotazioniLista.innerHTML = '<li>Errore nel caricamento delle prenotazioni.</li>';
-        }
     }
 }
 
 // Funzione per mostrare le prenotazioni dell'utente nell'interfaccia
-function mostraPrenotazioniUtente(eventi) {
+function mostraPrenotazioniUtente(eventi)
+{
     const prenotazioniLista = document.getElementById("lista-prenotazioni-utente");
     
-    if (!prenotazioniLista) {
+    if (!prenotazioniLista)
+    {
         console.warn("Lista prenotazioni non trovata");
         return;
     }
     
-    if (eventi.length === 0) {
+    if (eventi.length === 0)
+    {
         prenotazioniLista.innerHTML = '<li class="nessuna-prenotazione">Non hai ancora prenotazioni.</li>';
         return;
     }
@@ -112,7 +107,8 @@ function mostraPrenotazioniUtente(eventi) {
         dataEvento.setHours(0, 0, 0, 0);
         const isFuturo = dataEvento >= oggi;
         
-        const dataFormattata = dataEvento.toLocaleDateString('it-IT', {
+        const dataFormattata = dataEvento.toLocaleDateString('it-IT',
+        {
             weekday: 'short',
             month: 'short',
             day: 'numeric'
@@ -145,7 +141,8 @@ function mostraPrenotazioniUtente(eventi) {
 }
 
 // Funzione per aggiungere event listeners ai bottoni di disiscrizione
-function aggiungiEventListenerDisiscrizione() {
+function aggiungiEventListenerDisiscrizione()
+{
     const bottoniDisiscrizione = document.querySelectorAll('.btn-disiscrivi');
     
     bottoniDisiscrizione.forEach(bottone => {
@@ -161,8 +158,10 @@ function aggiungiEventListenerDisiscrizione() {
 }
 
 // Funzione per disiscriversi da un evento
-async function disiscriviDaEvento(eventoId) {
-    try {
+async function disiscriviDaEvento(eventoId)
+{
+    try
+    {
         const response = await fetch('/api/disiscrivi-evento', {
             method: 'POST',
             headers: {
@@ -189,7 +188,8 @@ async function disiscriviDaEvento(eventoId) {
 }
 
 // Funzione helper per mostrare messaggi
-function mostraMessaggio(testo, tipo) {
+function mostraMessaggio(testo, tipo)
+{
     const messaggioEl = document.getElementById("messaggio-modifica");
     messaggioEl.textContent = testo;
     messaggioEl.className = tipo; // "successo" o "errore"

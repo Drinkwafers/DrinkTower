@@ -23,7 +23,7 @@ Thumbs.db
 *.bak
 
 # ==========================
-# Build / output (se in futuro userai webpack, vite ecc.)
+# Build / output (se in futuro userò webpack, vite ecc.)
 # ==========================
 dist/
 build/
@@ -32,7 +32,7 @@ build/
 out/
 
 # ==========================
-# Database e backup (tieni solo i tuoi .sql "ufficiali")
+# Database e backup (tengo solo i miei .sql "ufficiali")
 # ==========================
 *.sql~
 *.sql.bak
